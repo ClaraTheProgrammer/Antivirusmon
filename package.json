@@ -1,0 +1,22 @@
+{
+  "name": "teamb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmsc447-sp2022/teamB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmsc447-sp2022/teamB/issues"
+  },
+  "homepage": "https://github.com/cmsc447-sp2022/teamB#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
