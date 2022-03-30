@@ -5,9 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>results page</title>
+    <link rel="stylesheet" type="text/css" href="static/results.css?version=1.0" />
 </head>
 <body>
-    <h1>This is the results page</h1>
+    <header>
+        <div class="topnav">
+            <h1>Title</h1>
+            <nav id="menu">
+                <button type="button" a href="homePage.html">Home</button>
+                <button type="button" a href="resultsPage.html">Results</button>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <h1>This is the Results page</h1>
+        <span class="decoration">
+            <div class="container" width="auto" height="100" padding-top="50px" text-align="center">
+                <div class="resultbar" width="100" height="100">
+                    <div class="outerbar">
+                        <div class="innerbar">
+                        </div>
+                    </div>
+                </div>
+                <svg version="1.1" width="100px" height="100px" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="70" cy="70" r="40" stroke-linecap="round"/>
+                    <circle cx="70" cy="70" r="40" stroke-linecap="round" id="virusfill"/>
+                </svg>
+                <label style="text-align:center; align-items:center;top:0; color:rgb(255, 0, 119);font-weight:bold;">Total</label>
+            </div>
+            <div class="container" width="auto">
+                <img src="images/anti-virusmon/anti-virusmon.png" width = 150 height = 150 style="image-rendering: pixelated;" >
+            </div>
+        </span >
+        <table>
+            <tr>
+                <th>Anti-Software</th>
+                <th>Malicious Files</th>
+            </tr>
     
+        </table>
+        </div>
+    </main>    
 </body>
 </html>
