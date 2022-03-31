@@ -11,23 +11,29 @@ body{
 }
 
 main{
-    min-width: 900px;
+    min-width: 1200px;
     padding-top: 150px;
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 
-    background-color: rgb(165, 165, 182);
-    padding-left: 5%;
+    /*background-color: rgb(165, 165, 182);*/
 }
 
+
+#center {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
 
 .decoration{
     display: inline-block;
     position: relative;
     padding-bottom: 50px;
-    width: 100%;
-    margin: 0 auto;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
     justify-content: center;
 }
 
@@ -36,6 +42,7 @@ main{
     height: 150px;
 
     overflow: hidden;
+    position: relative;
 
     padding: 25px;
 }
@@ -82,7 +89,7 @@ main{
 }
 circle{
     fill: none;
-    stroke: cornflowerblue;
+    stroke: rgb(60, 144, 255);
     stroke-width: 20px;
 }
 #virusfill{
