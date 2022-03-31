@@ -3,6 +3,7 @@ const app = express()
 
 app.use(express.static('public'))
 app.use('/images', express.static('images'))
+app.use('/static', express.static('static'))
 
 //GET request to root of web page and render homePage.html file
 app.get('/', function (req, res) {
