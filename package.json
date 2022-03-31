@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/cmsc447-sp2022/teamB#readme",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "mysql": "^2.18.1"
   }
 }
