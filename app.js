@@ -3,7 +3,9 @@ const app = express()
 var mysql = require('mysql');
 const readline = require('readline');
 const fs = require('fs');
+const { resolve } = require('path');
 
+/*
 //database server connection information
 var con = mysql.createConnection({
   host: "localhost",
@@ -17,7 +19,7 @@ con.connect(function (err) {
   console.log("Connected!");
 
   //create database within database server
-  con.query("CREATE DATABASE maliciousHashDB", function (err, result) {
+  con.query("CREATE DATABASE IF NOT EXISTS maliciousHashDB", function (err, result) {
     if (err) throw err;
     console.log("Database created");
   });
@@ -29,12 +31,11 @@ con.connect(function (err) {
   });
 
   //create table
-  var createTableQuery = "CREATE TABLE maliciousHash (hashID VARCHAR(16000))";
+  var createTableQuery = "CREATE TABLE IF NOT EXISTS maliciousHash (hashID VARCHAR(16000))";
   con.query(createTableQuery, function (err, result) {
     if (err) throw err;
     console.log("created table 'maliciousHash'");
   });
-
 
   //set up read file interface
   var readLine = require('readline').createInterface({
@@ -50,9 +51,11 @@ con.connect(function (err) {
   });
 
   //helps print this console.log message in the correct order
-  setTimeout(() => {console.log("inserted 100 malicious hashes");},10);
+  setTimeout(() => { console.log("inserted 100 malicious hashes"); }, 10);
+
 
 });
+*/
 
 app.use(express.static('public'))
 app.use('/images', express.static('images'))
@@ -69,4 +72,5 @@ app.get('/results', function (req, res) {
   res.sendFile(__dirname + "/resultsPage.html");
 })
 
-app.listen(3000)
+
+app.listen(3000);
