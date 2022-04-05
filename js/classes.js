@@ -45,7 +45,7 @@ class Boundary{
     }
 
     draw(){
-         c.fillStyle = 'red'
+         c.fillStyle = 'transparent'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }

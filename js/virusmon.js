@@ -1,6 +1,7 @@
 var canvas = document.querySelector('canvas') //selects the canvas in the html
 const c = canvas.getContext('2d') //canvas context
 
+
 canvas.width = 1024
 canvas.height = 576
 
@@ -122,9 +123,9 @@ const battle = {
     initiated: false
 }
 
-
 function animate(){
-    window.requestAnimationFrame(animate)
+    const animationID = window.requestAnimationFrame(animate)
+    console.log(animationID)
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()
@@ -152,8 +153,45 @@ function animate(){
                  
             })&& overlappingArea > ((player.width * player.height) /2) && Math.random()<.01) {
                 console.log('battling')
-                battle.initiated = true
+                
+                let hash;
+                console.log(hash)
+                let valid = false
+                hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
+                console.log(hash)
+                fetch(`http://localhost:3000/search/${hash}`)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json.valid)})
+                        
 
+                window.cancelAnimationFrame(animationID)
+                // while (hash === null || hash === "" || valid === false) {
+                //     hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
+                //     console.log(hash)
+                //     fetch(`http://localhost:3000/search/${hash}`)
+                //     .then(response => response.json())
+                //     .then(json => {
+                //         if(json.valid)
+                //             valid = true
+                //     })           
+                // }
+                battle.initiated = true
+                gsap.to('#overlappingDiv',{
+                    opacity:1,
+                    repeat:3,
+                    yoyo:true,
+                    duration:0.4,
+                    onComplete(){
+                        gsap.to('#overlappingDiv',{
+                            opacity:1,
+                            duration:.04
+                        })
+                        //activate a new animation loop
+                        //deactivate current animation loop
+                    }
+                })    
+    
                 break
             }
         }
@@ -250,7 +288,6 @@ function animate(){
         }
     }
 }
-
 
 animate()
  let lastKey = ''

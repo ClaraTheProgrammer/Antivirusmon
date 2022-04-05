@@ -32,7 +32,8 @@ function VT_Api(hash) {
                 size: attributes.size,
                 type_description: attributes.type_description,
                 type_extension: attributes.type_extension,
-                type_tag: attributes.type_tag
+                type_tag: attributes.type_tag,
+                valid: true
             }
         })
         .then(hash_info => {

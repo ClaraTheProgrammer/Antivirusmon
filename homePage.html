@@ -19,11 +19,16 @@
             </div>
         </header>
         <main>
-            
-            <div>
-                <div style="background-color: black;"></div>
+            <div style="display: inline-block; position: relative;">
+                <div id="overlappingDiv" style="background-color: black; position: absolute; top: 0; right: 0; 
+                bottom: 0; left: 0; opacity: 0; pointer-events: none;"></div>
                 <canvas></canvas>
             </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.2/gsap.min.js" 
+            integrity="sha512-kVlGhj2qFy+KBCFuvjBJTGUMxbdqJKs4yK2jh0e0VPhWUPiPC87bzm4THmaaIee3Oj7j6sDpTTgm2EPPiESqBg==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"></script>
+            <script src="./fetchGet.js"></script>
             <script src="./js/collision.js"></script>
             <script src="./js/battleZone.js"></script>
             <script src="./js/classes.js"></script>
