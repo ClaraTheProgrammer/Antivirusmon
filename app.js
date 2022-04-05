@@ -11,18 +11,18 @@ const options = {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'x-apikey': 'd939e12d943da23cbcbad42125c22fa6dd200bcd713bdcaf1d8c66f1390b2ec5' //'5d7310d34217a642c22cf788592e1e14b552485968825a9db8e47a213d01be48'
+      'x-apikey':  '5d7310d34217a642c22cf788592e1e14b552485968825a9db8e47a213d01be48' //'d939e12d943da23cbcbad42125c22fa6dd200bcd713bdcaf1d8c66f1390b2ec5'
     }
   };
 
 function VT_Api(hash) {
     return fetch(`https://www.virustotal.com/api/v3/files/${hash}`, options)
-        .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${ response.status }`)
-            }
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${ response.status }`)
+          }
+          return response.json()
         })
-        .then(res => res.json())
         .then(data => data.data.attributes)
         .then(attributes => {
             return {
