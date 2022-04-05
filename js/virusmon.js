@@ -155,27 +155,27 @@ function animate(){
                 console.log('battling')
                 
                 let hash;
-                console.log(hash)
+                //console.log(hash)
                 let valid = false
-                hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
-                console.log(hash)
-                fetch(`http://localhost:3000/search/${hash}`)
-                .then(response => response.json())
-                .then(json => {
-                    console.log(json.valid)})
+                //hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
+                //console.log(hash)
+                //fetch(`http://localhost:3000/search/${hash}`)
+                //.then(response => response.json())
+                //.then(json => {
+                //    console.log(json.valid)})
                         
 
                 window.cancelAnimationFrame(animationID)
-                // while (hash === null || hash === "" || valid === false) {
-                //     hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
-                //     console.log(hash)
-                //     fetch(`http://localhost:3000/search/${hash}`)
-                //     .then(response => response.json())
-                //     .then(json => {
-                //         if(json.valid)
-                //             valid = true
-                //     })           
-                // }
+                while (hash === null || hash === "" || valid === false) {
+                    hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
+                    console.log(hash)
+                    fetch(`http://localhost:3000/search/${hash}`)
+                    .then(response => response.json())
+                    .then(json => {
+                        if(json.valid)
+                            valid = true
+                    })           
+                }
                 battle.initiated = true
                 gsap.to('#overlappingDiv',{
                     opacity:1,

@@ -17,7 +17,12 @@ const options = {
 
 function VT_Api(hash) {
     return fetch(`https://www.virustotal.com/api/v3/files/${hash}`, options)
-        .then(response => response.json())
+        .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${ response.status }`)
+            }
+        })
+        .then(res => res.json())
         .then(data => data.data.attributes)
         .then(attributes => {
             return {
@@ -40,7 +45,6 @@ function VT_Api(hash) {
             db.data[hash] = hash_info
             db.write()
         })
-        .catch(error => console.log(error))
 }
 
 const adapter = new JSONFile('db.json')
@@ -52,7 +56,7 @@ if (db.data == null) {
     var readLine = readline.createInterface({
         input: fs.createReadStream('maliciousHashes-dummy.txt')
     })
-    readLine.on('line', (hash) => VT_Api(hash))
+    readLine.on('line', (hash) => VT_Api(hash).catch(error => console.log(error)))
 }
 
 const app = express()
@@ -76,7 +80,11 @@ app.get('/search/:hash', async (req, res) => {
   var hashInfo = db.data[req.params.hash]
   if (hashInfo == undefined) {
       await VT_Api(req.params.hash)
-      hashInfo = db.data[req.params.hash]
+            .then(info => hashInfo = info)
+            .catch(error => {
+              console.log(error)
+              hashInfo = {valid:false}
+            })
   }
   res.send(hashInfo)
 })
