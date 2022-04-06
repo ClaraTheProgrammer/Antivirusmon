@@ -1,28 +1,35 @@
 var canvas = document.querySelector('canvas') //selects the canvas in the html
 const c = canvas.getContext('2d') //canvas context
 
-
 canvas.width = 1024
 canvas.height = 576
 
 const collisionsMap = []
+//puts every 70 element into an array and pushes it into the collisionsMap list
 for( let i = 0; i < collisions.length; i+=70){
     collisionsMap.push(collisions.slice(i, 70 + i))
 }
 
 const battleZoneMap = []
+//puts every 70 element into an array and pushes it into the battlezoneMap list
 for( let i = 0; i < battleZoneData.length; i+=70){
     battleZoneMap.push(battleZoneData.slice(i, 70 + i))
 }
 
 const offset = {
+    //offset of where the map is starting 
     x:-760,
     y:-650
 }
+
 const boundaries = []
 const battleZones = []
+
+//loops through the row of collisionsMap
 collisionsMap.forEach((row,i) => {
+    //loops through the column of each row of collisionsMap
     row.forEach((symbol, j) => {
+        //if the element is 125 then we make a new boundary with the posistions the 
         if(symbol === 1025){
             boundaries.push(
                 new Boundary({
@@ -56,7 +63,7 @@ c.fillRect(0,0, canvas.width, canvas.height)
 const image = new Image()//creates a new image, of the pellet town
 image.src='./images/Pellet Town.png'
 
-const foregroundImg = new Image()
+const foregroundImg = new Image() //creates a image of the foreground
 foregroundImg.src='./images/foregroundObjects.png'
 
 const playerDown = new Image() //creates a new image of the player
