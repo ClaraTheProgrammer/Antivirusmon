@@ -4,6 +4,11 @@ const c = canvas.getContext('2d') //canvas context
 canvas.width = 1024
 canvas.height = 576
 
+playerWalk = 2;
+playerRun = 4;
+
+KeysPressed = [];
+
 const collisionsMap = []
 //puts every 70 element into an array and pushes it into the collisionsMap list
 for( let i = 0; i < collisions.length; i+=70){
@@ -78,20 +83,37 @@ playerLeft.src='./images/playerLeft.png'
 const playerRight = new Image() 
 playerRight.src='./images/playerRight.png'
 
-const player = new Sprite({
+const player = new Character({
     position: {
         x:canvas.width / 2 - (192 / 4),
         y:canvas.height/2 - 68 / 2
     },
     image: playerDown,
     frames:{
-        max:4
+        max:4, 
+        hold: 10
     },
     sprites: {
         up:playerUp,
         down:playerDown,
         left:playerLeft,
         right:playerRight
+    },
+    collisions: {
+        top:{pressed:false},
+        bottom:{pressed:false},
+        left:{pressed:false},
+        right:{pressed:false}
+    },
+    rectangle:
+    {
+        width: 48,
+        height: 28,
+        position: 
+        {
+            x:canvas.width / 2 - (192 / 4),
+            y:canvas.height/2 - 68 / 2 + 40
+        }
     }
 })
 const background = new Sprite({
@@ -115,7 +137,8 @@ const keys={
     w:{pressed:false},
     a:{pressed:false},
     s:{pressed:false},
-    d:{pressed:false}
+    d:{pressed:false},
+    shift:{pressed:false}
 }
 
 const movables = [background, ...boundaries, foreground, ...battleZones]
@@ -126,6 +149,8 @@ function rectangularCollision({rectangle1, rectangle2}){
         rectangle1.position.y + rectangle1.height >= rectangle2.position.y&&
         rectangle1.position.y <= rectangle2.position.y + rectangle2.height)
 }
+
+//is the battle active
 const battle = {
     initiated: false
 }
@@ -140,11 +165,17 @@ function animate(){
     battleZones.forEach(battleZone =>{
         battleZone.draw()
     })
+
     player.draw()
     foreground.draw()
+
     let moving = true
-    player.moving = false
-    if(battle.initiated) return
+    //player.animate = false
+
+    //if we are currently in a battle then there is no reason to animate the overworld
+    if(battle.initiated) 
+        return
+
     if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
         for(let i = 0; i< battleZones.length; i++){
             const battleZone = battleZones[i]
@@ -158,7 +189,7 @@ function animate(){
                 rectangle1 : player,
                 rectangle2: battleZone
                  
-            })&& overlappingArea > ((player.width * player.height) /2) && Math.random()<.01) {
+            })&& overlappingArea > ((player.width * player.height) /2) && Math.random()<.05) {
                 console.log('battling')
                 
                 let hash;
@@ -173,6 +204,8 @@ function animate(){
                         
 
                 window.cancelAnimationFrame(animationID)
+                /*  Prompting the user for file hash!!!!!!!!
+
                 while (hash === null || hash === "" || valid === false) {
                     hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
                     console.log(hash)
@@ -183,142 +216,181 @@ function animate(){
                             valid = true
                     })           
                 }
+                */
                 battle.initiated = true
-                gsap.to('#overlappingDiv',{
-                    opacity:1,
-                    repeat:3,
-                    yoyo:true,
-                    duration:0.4,
-                    onComplete(){
-                        gsap.to('#overlappingDiv',{
-                            opacity:1,
-                            duration:.04
-                        })
-                        //activate a new animation loop
-                        //deactivate current animation loop
-                    }
-                })    
+                initBattle()
+                gsap.to('#battle_transition', {opacity: 1, repeat:2, 
+                    onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
+                    onComplete(){ animateBattle(), gsap.to('#battle_transition', {opacity: 0})}})
     
                 break
             }
         }
     }
-    
-    if(keys.w.pressed && lastKey ==='w'){
-        player.moving = true
-        player.image = player.sprites.up
-        for(let i = 0; i< boundaries.length; i++){
-            const boundary = boundaries[i]
-            if(rectangularCollision({
-                rectangle1 : player,
-                rectangle2: {...boundary, position:{
-                    x: boundary.position.x,
-                    y:  boundary.position.y+2
-                }}
-            })){
-                console.log('colliding')
-                moving = false
-                break
-            }
-        }
 
-        if(moving){
-            movables.forEach((movable) =>{
-                movable.position.y +=2
-            })
-        }
-    }else if(keys.a.pressed && lastKey ==='a'){
-        player.moving = true
-        player.image = player.sprites.left
-        for(let i = 0; i< boundaries.length; i++){
-            const boundary = boundaries[i]
-            if(rectangularCollision({
-                rectangle1 : player,
-                rectangle2: {...boundary, position:{
-                    x: boundary.position.x+2,
-                    y:  boundary.position.y
-                }}
-            })){
-                console.log('colliding')
-                moving = false
-                break
+    if(KeysPressed.length > 0)
+    {
+        lastKeyPressed = KeysPressed[KeysPressed.length - 1]
+        player.collisions.top = false
+        player.collisions.bottom = false
+        player.collisions.left = false
+        player.collisions.right = false
+
+        if(lastKeyPressed ==='w'){
+            player.animate = true
+            player.image = player.sprites.up
+            for(let i = 0; i< boundaries.length; i++){
+                const boundary = boundaries[i]
+
+                player.collisions.top = false
+                if(rectangularCollision({
+                    rectangle1 : player.rectangle,
+                    rectangle2: {...boundary, position:{
+                        x: boundary.position.x,
+                        y:  boundary.position.y+2
+                    }}
+                })){
+                    console.log('colliding')
+                    player.collisions.top = true
+                    break
+                }
             }
-        }
-        if(moving){
-            movables.forEach((movable) =>{
-                movable.position.x +=2
-            })
-        }
-    }else if(keys.s.pressed && lastKey ==='s'){
-        player.moving = true
-        player.image = player.sprites.down
-        for(let i = 0; i< boundaries.length; i++){
-            const boundary = boundaries[i]
-            if(rectangularCollision({
-                rectangle1 : player,
-                rectangle2: {...boundary, position:{
-                    x: boundary.position.x,
-                    y:  boundary.position.y-2
-                }}
-            })){
-                console.log('colliding')
-                moving = false
-                break
+
+            if(!player.collisions.top){
+                movables.forEach((movable) =>{
+                    if(keys.shift.pressed)
+                        movable.position.y += playerRun;
+                    else
+                        movable.position.y += playerWalk;
+                })
             }
-        }
-        if(moving){
-            movables.forEach((movable) =>{
-                movable.position.y -=2
-            })
-        }
-    }else if(keys.d.pressed && lastKey ==='d'){
-        player.moving = true
-        player.image = player.sprites.right
-        for(let i = 0; i< boundaries.length; i++){
-            const boundary = boundaries[i]
-            if(rectangularCollision({
-                rectangle1 : player,
-                rectangle2: {...boundary, position:{
-                    x: boundary.position.x-2,
-                    y:  boundary.position.y
-                }}
-            })){
-                console.log('colliding')
-                moving = false
-                break
+        }else if(lastKeyPressed ==='a'){
+            player.animate = true
+            player.image = player.sprites.left
+            for(let i = 0; i< boundaries.length; i++){
+                const boundary = boundaries[i]
+
+                player.collisions.left = false
+                if(rectangularCollision({
+                    rectangle1 : player.rectangle,
+                    rectangle2: {...boundary, position:{
+                        x: boundary.position.x+2,
+                        y:  boundary.position.y
+                    }}
+                })){
+                    console.log('colliding')
+                    player.collisions.left = true
+                    break
+                }
             }
-        }
-        if(moving){
-            movables.forEach((movable) =>{
-                movable.position.x -=2
-            })
+            if(!player.collisions.left){
+                movables.forEach((movable) =>{
+                    if(keys.shift.pressed)
+                        movable.position.x += playerRun;
+                    else
+                        movable.position.x += playerWalk;
+                })
+            }
+        }else if(lastKeyPressed ==='s'){
+            player.animate = true
+            player.image = player.sprites.down
+            for(let i = 0; i< boundaries.length; i++){
+                const boundary = boundaries[i]
+
+                player.collisions.bottom = false
+                if(rectangularCollision({
+                    rectangle1 : player.rectangle,
+                    rectangle2: {...boundary, position:{
+                        x: boundary.position.x,
+                        y:  boundary.position.y-2
+                    }}
+                })){
+                    console.log('colliding')
+                    player.collisions.bottom = true
+                    break
+                }
+            }
+            if(!player.collisions.bottom){
+                movables.forEach((movable) =>{
+                    if(keys.shift.pressed)
+                        movable.position.y -=playerRun
+                    else
+                        movable.position.y -=playerWalk
+                })
+            }
+        }else if(lastKeyPressed ==='d'){
+            player.animate = true
+            player.image = player.sprites.right
+            for(let i = 0; i< boundaries.length; i++){
+                const boundary = boundaries[i]
+
+                player.collisions.right = false
+                if(rectangularCollision({
+                    rectangle1 : player.rectangle,
+                    rectangle2: {...boundary, position:{
+                        x: boundary.position.x-2,
+                        y:  boundary.position.y
+                    }}
+                })){
+                    console.log('colliding')
+                    player.collisions.right = true
+                    break
+                }
+            }
+            if(!player.collisions.right){
+                movables.forEach((movable) =>{
+                    if(keys.shift.pressed)
+                        movable.position.x -= playerRun
+                    else
+                        movable.position.x -=playerWalk
+                })
+            }
         }
     }
 }
 
 animate()
- let lastKey = ''
 //listens to the keyboard
 window.addEventListener('keydown', (e) =>{
     switch(e.key){
         case 'w':
+            index = KeysPressed.indexOf('w');
+            if (index === -1) 
+            {
+                KeysPressed.push('w');
+            }
             keys.w.pressed = true
-            lastKey = 'w'
             break
 
         case 'a':
+            index = KeysPressed.indexOf('a');
+            if (index === -1) 
+            {
+                KeysPressed.push('a');
+            }
             keys.a.pressed = true
-            lastKey = 'a'
             break
 
         case 's':
+            index = KeysPressed.indexOf('s');
+            if (index === -1) 
+            {
+                KeysPressed.push('s');
+            }
             keys.s.pressed = true
-            lastKey = 's'
             break
 
         case 'd':
+            index = KeysPressed.indexOf('d');
+            if (index === -1) 
+            {
+                KeysPressed.push('d');
+            }
             keys.d.pressed = true
-            lastKey = 'd'
+            break
+
+        case 'e':
+            keys.shift.pressed = true
             break
 
     }
@@ -327,19 +399,47 @@ window.addEventListener('keydown', (e) =>{
 window.addEventListener('keyup', (e) =>{
     switch(e.key){
         case 'w':
+            //removes key
+            index = KeysPressed.indexOf('w');
+            if (index > -1) 
+            {
+                KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+            }
             keys.w.pressed = false
             break
 
         case 'a':
+            //removes key
+            index = KeysPressed.indexOf('a');
+            if (index > -1) 
+            {
+                KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+            }
             keys.a.pressed = false
             break
 
         case 's':
+            //removes key
+            index = KeysPressed.indexOf('s');
+            if (index > -1) 
+            {
+                KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+            }
             keys.s.pressed = false
             break
 
         case 'd':
+            //removes key
+            index = KeysPressed.indexOf('d');
+            if (index > -1) 
+            {
+                KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+            }
             keys.d.pressed = false
+            break
+
+        case 'e':
+            keys.shift.pressed = false
             break
 
     }

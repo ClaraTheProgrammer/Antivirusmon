@@ -1,38 +1,171 @@
-class Sprite{
-    constructor({position, velocity, image, frames = {max:1}, sprites}){
-        this.position = position
-        this.image = image
-        this.frames = {...frames, val: 0, elapsed: 0}
-        this.image.onload = () =>{
-            this.width = this.image.width/ this.frames.max
-            this.height = this.image.height
-        }
-        this.moving = false
-        this.sprites = sprites
+class Sprite {
+    constructor({position, image, frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0}) {
+      this.position = position
+      this.image = new Image()
+      this.frames = { ...frames, val: 0, elapsed: 0 }
+      this.image.onload = () => {
+        this.width = this.image.width / this.frames.max
+        this.height = this.image.height
+      }
+      this.image.src = image.src
+  
+      this.animate = animate
+      this.sprites = sprites
+      this.opacity = 1
+  
+      this.rotation = rotation
     }
-    draw(){
-        c.drawImage(
-            this.image,
-            this.frames.val * this.width, //crop starting x pos
-            0, //crop starting  y pos
-            this.image.width/this.frames.max, //crop ending x pos
-            this.image.height,  //crop ending y pos
-            this.position.x,
-            this.position.y,
-            this.image.width/this.frames.max, //width of the cropped pic
-            this.image.height   //height of the cropped pic
-        )//loads the character second
-        if(!this.moving) return
-        if(this,this.frames.max>1){
-            this.frames.elapsed++
-        }
-        if(this.frames.elapsed % 5 === 0){
-            if(this.frames.val < this.frames.max-1)this.frames.val++
-            else this.frames.val = 0
+  
+    draw() {
+      c.save()
+      c.translate(
+        this.position.x + this.width / 2,
+        this.position.y + this.height / 2
+      )
+      c.rotate(this.rotation)
+      c.translate(
+        -this.position.x - this.width / 2,
+        -this.position.y - this.height / 2
+      )
+      c.globalAlpha = this.opacity
+      c.drawImage(
+        this.image,
+        this.frames.val * this.width,
+        0,
+        this.image.width / this.frames.max,
+        this.image.height,
+        this.position.x,
+        this.position.y,
+        this.image.width / this.frames.max,
+        this.image.height
+      )
+      c.restore()
+  
+      if (!this.animate) return
+  
+      if (this.frames.max > 1) {
+        this.frames.elapsed++
+      }
+  
+      if (this.frames.elapsed % this.frames.hold === 0) {
+        if (this.frames.val < this.frames.max - 1) this.frames.val++
+        else this.frames.val = 0
+      }
+    }
+  }
+  
+
+class Monster extends Sprite {
+    constructor({ position, velocity, image,frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0, isEnemy = false, name = "NoName", attacks, maxHealth = 100, strength = 1}) {
+      super({position, velocity, image, frames, sprites, animate, rotation })
+      
+      this.health = maxHealth
+      this.maxHealth = maxHealth
+      this.isEnemy = isEnemy
+      this.name = name
+      this.attacks = attacks
+      this.strength = strength
+    }
+
+    attack({attack, recipient, renderedSprites}){
+        let facing = 1
+        if(this.isEnemy) facing = -1
+
+        let healthbar = '#enemyHealthBar'
+        if(this.isEnemy) healthbar = '#playerHealthBar'
+
+        document.querySelector('#DialogueBox').style.display = 'block'
+        document.querySelector('#DialogueBox').innerHTML = this.name + ' used ' + attack.name + '!!!'
+
+        recipient.health = recipient.health - attack.damage
+
+        switch(attack.name){
+
+            case 'Tackle':
+                const anti_tl = gsap.timeline()
+
+                anti_tl.to(
+                  this.position, {
+                    x: this.position.x - 50 * facing
+                }).to(this.position, {
+                    x: this.position.x + 5 * facing, duration: .2
+                }).to(this.position, {
+                    x: this.position.x, duration: .1,
+                    //enemy effects after attack
+
+                    onComplete: () => 
+                    { gsap.to(recipient.position,
+                      {
+                        x: recipient.position.x + 10 * facing, yoyo: true, repeat:5, duration: .1                        
+                      }) 
+                      gsap.to(healthbar, {width: (recipient.health)/recipient.maxHealth*100 + '%'})
+                      gsap.to(recipient,{opacity: .5, yoyo: true, repeat:5, duration: .1})
+                    } 
+                })
+                break
+            case 'CodeCrunch':
+                const fang_bottom_img = new Image()
+                fang_bottom_img.src = './images/battle/FangBottom.png'
+                const fang_top_img = new Image()
+                fang_top_img.src = './images/battle/FangTop.png'
+
+                const fangtop = new Sprite({position: {x: recipient.position.x, y: recipient.position.y}, image: fang_top_img, opacity: 0})
+                const fangbottom = new Sprite({position: {x: recipient.position.x, y: recipient.position.y + 90}, image: fang_bottom_img, opacity: 0})
+
+                renderedSprites.push(fangtop)
+                renderedSprites.push(fangbottom)
+
+                const crunch_tl = gsap.timeline()
+
+                crunch_tl.to(
+                    fangtop.position, {x: recipient.position.x, y: recipient.position.y - 30, duration: .8},
+                    gsap.to(fangtop, {opacity: 1, duration: .8}),
+                    gsap.to(fangbottom.position, {x: recipient.position.x, y: recipient.position.y + 120, duration: .8}),
+                    gsap.to(fangbottom, {opacity: 1, duration: .8, 
+                        onComplete: () => {
+                        gsap.to(fangtop.position, {x: recipient.position.x, y: recipient.position.y + 20})
+                        gsap.to(fangbottom.position, {x: recipient.position.x, y: recipient.position.y + 50,
+                        onComplete: () => {
+                            gsap.to(fangtop, {opacity: 0}),
+                            gsap.to(recipient.position,{x: recipient.position.x + 10 * facing, yoyo: true, repeat:5, duration: .1}),
+                            gsap.to(healthbar, {width: (recipient.health)/recipient.maxHealth*100 + '%'}),
+                            gsap.to(recipient,{opacity: .5, yoyo: true, repeat:5, duration: .1})
+                            gsap.to(fangbottom, {opacity: 0,
+                            onComplete: () => {
+                                renderedSprites.pop(),
+                                renderedSprites.pop()
+                                }})}})}}))
+                break
         }
 
+        
     }
 
+    faint() {
+      document.querySelector('#DialogueBox').style.display = 'block'
+      document.querySelector('#DialogueBox').innerHTML = this.name + ' fainted!'       
+      console.log(this.name + ' fainted!')
+        gsap.to(this.position, 
+          {
+            y: this.position.y + 20
+          },
+        )
+        gsap.to(
+          this, 
+          {
+            opacity: 0
+          },
+        )
+      }
+}
+
+class Character extends Sprite{
+  constructor({ position, velocity, image,frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0, collisions, rectangle}) {
+    super({position, velocity, image, frames, sprites, animate, rotation })
+    
+    this.collisions = collisions
+    this.rectangle = rectangle
+  }
 }
 
 class Boundary{

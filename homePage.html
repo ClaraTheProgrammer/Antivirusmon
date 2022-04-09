@@ -6,6 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>home page</title>
         <link rel="stylesheet" type="text/css" href="static/home.css?version=1.0" />
+
+        <!-- Pixle Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     </head>
     <body>
         <header>  
@@ -19,20 +25,107 @@
             </div>
         </header>
         <main>
-            <div style="display: inline-block; position: relative;">
-                <div id="overlappingDiv" style="background-color: black; position: absolute; top: 0; right: 0; 
-                bottom: 0; left: 0; opacity: 0; pointer-events: none;"></div>
+            <div style="display: inline-block; position:relative;">
+                <div id="battle_transition"
+                 style="background-color: black; top:0; right:0; bottom:0; left:0; position: absolute; opacity:0;"></div>
+
+                <!-- The Game -->
                 <canvas></canvas>
+                
+                <!-- Battle Overlay -->
+                <div id="BattleOverlay" style = "position: absolute; left:0; top:0; right:0; bottom:0; display: none;">
+                    <!-- Attack Bar -->
+                    <div style = "background-color: grey; height: 140px; position: absolute; bottom: 0; left: 0; right: 0; display: flex;">
+                        <div id = "attacksBox" style = "width: 60%; display: grid; grid-template-columns: repeat(2, 1fr)">
+
+                        </div>
+                        <div style = "display: flex; align-items: center; justify-content: center; width: 40%;">
+                            <h1>Attack Type</h1>
+                        </div>
+
+                        <div id = "DialogueBox">This is dialogue!</div>
+
+                    </div>
+                    <!-- Anti-Virusmon healthbar -->
+                    <div style ="background-color: grey; width:250px; position: absolute; bottom: 190px; right: 50px; padding: 12px;
+                    border-bottom: 5px solid darkslategrey;; border-right:5px solid darkslategrey;">
+                        <h1 style="font-size: 20px; margin-bottom:10px;">Anti-virusmon</h1>
+                        <div id="HealthBar" style="position:relative; margin-top:10px; padding-bottom: 10px;">
+                            <div style = "height: 10px; background-color: rgb(111, 87, 121); position:absolute; top:0; right:0; left:0; bottom:0;"></div>
+                            <div id = "playerHealthBar" style = "height: 10px; background-color: rgb(0, 238, 255); position:absolute; top:0; right:0px; left:0; bottom:0; width: 100%;"></div>
+                        </div>
+                    </div>
+                    <!-- Virusmon healthbar -->
+                    <div style ="background-color: grey; width:250px; position: absolute; top: 50px; left: 50px; padding: 12px;
+                    border-bottom: 5px solid darkslategrey;; border-right:5px solid darkslategrey;">
+                        <h1 class="text-glitch" style="font-size: 20px; margin-bottom:10px;">Virusmon</h1>
+                        <div id="HealthBar" style="position:relative; margin-top:10px; padding-bottom: 10px;">
+                            <div style = "height: 10px; background-color: rgb(87, 101, 121); position:absolute; top:0; right:0; left:0; bottom:0;"></div>
+                            <div id = "enemyHealthBar" style = "height: 10px; background-color: rgb(212, 0, 255); position:absolute; top:0; right:0px; left:0; bottom:0; width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+            <div id="results-section" style="position:relative; min-height: 1000px;">
+                <div style="position: absolute; bottom: 0; right:0; left:0; height:20px; background-color:black">
+                    <button id="open_bttn">Open</button>
+                </div>
+                <div class="Virus-Dex">
+                    <span class="decoration">
+                        <div class="container" width="auto" height="100" padding-top="50px" text-align="center">
+                            <div class="resultbar" width="100" height="100">
+                                <div class="outerbar">
+                                    <div class="innerbar">
+                                    </div>
+                                </div>
+                                <svg version="1.1" width="100px" height="100px" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="70" cy="70" r="40" stroke-linecap="round"/>
+                                    <circle cx="70" cy="70" r="40" stroke-linecap="round" id="virusfill"/>
+                                </svg>
+                            </div>
+            
+                            <label style="text-align:center; align-items:center;top:0; color:rgb(255, 0, 119);font-weight:bold;">Total: ##</label>
+                        </div>
+                        <div class="container" width="auto" >
+                            
+                            <img src="./images/anti-virusmon.png"  width = "200" height = "170" style="image-rendering: pixelated;" overflow="hidden" display="inline-block" >
+                            
+                        </div>
+                        <div class="container" width="auto" padding="50px">
+                            <div>blah blah blah</div>
+                            <div>blah blah blah</div>
+                        </div>
+                    </span >
+                    <table id="center">
+                        <tr>
+                            <th>Anti-Software</th>
+                            <th>Malicious Files</th>
+                        </tr>
+                        <tr>
+                            <td>blah blah blah</td>
+                            <td>blah blah blah</td>
+                        </tr>
+                
+                    </table>
+                </div>
+                </div>
+            </div>
+
             <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.2/gsap.min.js" 
             integrity="sha512-kVlGhj2qFy+KBCFuvjBJTGUMxbdqJKs4yK2jh0e0VPhWUPiPC87bzm4THmaaIee3Oj7j6sDpTTgm2EPPiESqBg==" 
             crossorigin="anonymous" 
             referrerpolicy="no-referrer"></script>
             <script src="./js/collision.js"></script>
             <script src="./js/battleZone.js"></script>
+            <script src="./js/attacks.js"></script>
+            <script src="./js/monsters.js"></script>
             <script src="./js/classes.js"></script>
             <script src="./js/virusmon.js"></script>
-
-        </main> 
+            <script src="./js/battle.js"></script>
+        </main>
+        
+    
+        
     </body>
 </html>
