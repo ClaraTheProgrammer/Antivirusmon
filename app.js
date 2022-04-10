@@ -52,7 +52,7 @@ await db.read()
 if (db.data == null) {
     db.data = { }
     var readLine = readline.createInterface({
-        input: fs.createReadStream('maliciousHashes-dummy.txt')
+        input: fs.createReadStream('maliciousHashes.txt')
     })
     readLine.on('line', (hash) => VT_Api(hash).catch(error => console.log(error)))
 }
