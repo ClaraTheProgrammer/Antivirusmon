@@ -15,19 +15,43 @@ let pause = false
 
 let pause_input = false;
 
+function startBattle() {
+  //randomly get a new monster to fight.  Change later to implement hash
+  //random monster = Math.floor(Math.random()*(monsters.enemies.length))
+
+  virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length))])
+  renderedSprites = [anti_mon, virusmon]
+  queue = []
+
+  gsap.to('#battle_transition', {opacity: 1, repeat:2, 
+    onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
+    onComplete(){ 
+      animateBattle(), 
+      gsap.to('#battle_transition', {opacity: 0})
+      document.querySelector('#BattleOverlay').style.display = 'block'
+      document.querySelector('#DialogueBox').style.display = 'none'
+      document.querySelector('#enemyHealthBar').style.width = (virusmon.health/virusmon.maxhealth) + '%'
+      document.querySelector('#playerHealthBar').style.width = (anti_mon.health/anti_mon.maxhealth) + '100%'
+      document.querySelector('#attacksBox').replaceChildren()
+      initBattle()
+    }})
+  
+}
+
 function initBattle() {  
 
-    //randomly get a new monster to fight.  Change later to implement hash values
-    virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length))])
-    renderedSprites = [anti_mon, virusmon]
-    queue = []
+    if(anti_mon.health <= 0)
+      anti_mon.health = anti_mon.maxHealth
+    
+    virusmon.position =         
+    {
+      x: 740,
+      y: 70
+    },
 
-    document.querySelector('#BattleOverlay').style.display = 'block'
-    document.querySelector('#DialogueBox').style.display = 'none'
-    document.querySelector('#enemyHealthBar').style.width = '100%'
-    document.querySelector('#playerHealthBar').style.width = (anti_mon.health/anti_mon.maxhealth) + '100%'
-    document.querySelector('#attacksBox').replaceChildren()
-  
+    document.querySelector('#DialogueBox').style.display = 'block'
+    document.querySelector('#DialogueBox').innerHTML = virusmon.entry_messages[Math.floor(Math.random()*(virusmon.entry_messages.length))]
+
     anti_mon.attacks.forEach((attack) => {
       const button = document.createElement('button')
       button.innerHTML = attack.name
@@ -36,19 +60,13 @@ function initBattle() {
     })
 
     gsap.to(
-      anti_mon.position, {x: anti_mon.position.x -100, y: anti_mon.position.y, duration: 0},
-      gsap.to(virusmon.position, {x: virusmon.position.x +100, y: virusmon.position.y, duration: 0}),
-      gsap.to(anti_mon, {opacity: 0, duration: 0}),
-      gsap.to(virusmon, {opacity: 0, duration : 0,
-        onComplete: () => {
-          gsap.to(anti_mon.position, {x: anti_mon.position.x, y: anti_mon.position.y}),
+          anti_mon.position, {x: anti_mon.position.x, y: anti_mon.position.y},
           gsap.to(virusmon.position, {x: virusmon.position.x, y: virusmon.position.y}),
           gsap.to(anti_mon, {opacity: 1}),
           gsap.to(virusmon, {opacity: 1})
-        }
-      }
-    ))
+    )
   
+
     // our event listeners for our buttons (attack)
     Array.from(document.getElementsByClassName('attack_bttn')).forEach((button) => {
       button.addEventListener('click', (e) => {
@@ -138,7 +156,10 @@ function animateBattle(){
 }
 
 document.querySelector('#DialogueBox').addEventListener('click', (e) =>{
-    e.currentTarget.style.display = 'none';
+  if(pause_input)  
+    return 
+  
+  e.currentTarget.style.display = 'none';
     console.log(pause_input)
     if(queue.length > 0)
     {

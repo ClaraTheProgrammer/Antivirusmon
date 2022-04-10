@@ -1,8 +1,8 @@
 const monsters = {
     anti_mon: {
       position: {
-        x: 220,
-        y: 200
+        x: 225,
+        y: 210
       },
       image: {
         src: './images/battle/Antimon.png'
@@ -14,7 +14,7 @@ const monsters = {
       animate: true,
       name: 'Anti-Virusmon',
       attacks: [attacks.Tackle, attacks.CodeCrunch],
-      maxhealth: 300,
+      maxHealth: 300,
       strength: 1
     },
 
@@ -23,8 +23,8 @@ const monsters = {
       //virusmon1
         {
         position: {
-          x: 750,
-          y: 50
+          x: 740,
+          y: 70
         },
         image: {
           src: './images/battle/Virusmon.png'
@@ -37,15 +37,16 @@ const monsters = {
         isEnemy: true,
         name: 'Virusmon1',
         attacks: [attacks.Tackle],
-        maxhealth: 100,
-        strength: 1
+        maxHealth: 100,
+        strength: 1,
+        entry_messages: ['A wild virus approaches!', 'this one looks mean', 'huh, it\'s purple']
       },
 
       //virusmon2
       {
         position: {
-          x: 750,
-          y: 50
+          x: 740,
+          y: 70
         },
         image: {
           src: './images/battle/Virusmon2.png'
@@ -58,15 +59,16 @@ const monsters = {
         isEnemy: true,
         name: 'Virusmon2',
         attacks: [attacks.Tackle],
-        maxhealth: 150,
-        strength: 1
+        maxHealth: 150,
+        strength: 1,
+        entry_messages: ['A wild virus approaches!', 'this one looks mean', 'huh, it\'s kinda orange']
       },
 
       //virusmon3
        {
         position: {
-          x: 750,
-          y: 50
+          x: 740,
+          y: 70
         },
         image: {
           src: './images/battle/Virusmon3.png'
@@ -79,8 +81,33 @@ const monsters = {
         isEnemy: true,
         name: 'Virusmon3',
         attacks: [attacks.Tackle],
-        maxhealth: 50,
-        strength: 5
+        maxHealth: 50,
+        strength: 5,
+        entry_messages: ['A wild virus approaches!', 'this one looks mean', 'huh, it\'s kinda red']
+      },
+
+      //cardboardian easteregg (Virusmon4)
+      {
+        position: {
+          x: 740,
+          y: 70
+        },
+        image: {
+          src: './images/battle/cardboardbox.png'
+        },
+        frames: {
+          max: 16,
+          hold: 10
+        },
+        animate: true,
+        isEnemy: true,
+        name: 'A CardboardBox?',
+        attacks: [attacks.Tackle],
+        maxHealth: 5000,
+        strength: 1000,
+        entry_messages: ['It\'s a...  Cardboard Box?', 'huh?', 'oh ok...']
+
       }
+
     ]
   }

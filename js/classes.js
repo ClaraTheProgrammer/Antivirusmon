@@ -1,5 +1,5 @@
 class Sprite {
-    constructor({position, image, frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0}) {
+    constructor({position, image, frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0}, entry_messages) {
       this.position = position
       this.image = new Image()
       this.frames = { ...frames, val: 0, elapsed: 0 }
@@ -14,6 +14,8 @@ class Sprite {
       this.opacity = 1
   
       this.rotation = rotation
+
+      
     }
   
     draw() {
@@ -56,7 +58,7 @@ class Sprite {
   
 
 class Monster extends Sprite {
-    constructor({ position, velocity, image,frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0, isEnemy = false, name = "NoName", attacks, maxHealth = 100, strength = 1}) {
+    constructor({ position, velocity, image,frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0, isEnemy = false, name = "NoName", attacks, maxHealth = 100, strength = 1, entry_messages}) {
       super({position, velocity, image, frames, sprites, animate, rotation })
       
       this.health = maxHealth
@@ -65,6 +67,8 @@ class Monster extends Sprite {
       this.name = name
       this.attacks = attacks
       this.strength = strength
+
+      this.entry_messages = entry_messages
     }
 
     attack({attack, recipient, renderedSprites}){
@@ -77,8 +81,12 @@ class Monster extends Sprite {
         document.querySelector('#DialogueBox').style.display = 'block'
         document.querySelector('#DialogueBox').innerHTML = this.name + ' used ' + attack.name + '!!!'
 
-        recipient.health = recipient.health - attack.damage
+        recipient.health = recipient.health - attack.damage * this.strength
 
+        if(recipient.health < 0)
+          recipient.health = 0
+
+        pause_input = true
         switch(attack.name){
 
             case 'Tackle':
@@ -100,6 +108,7 @@ class Monster extends Sprite {
                       }) 
                       gsap.to(healthbar, {width: (recipient.health)/recipient.maxHealth*100 + '%'})
                       gsap.to(recipient,{opacity: .5, yoyo: true, repeat:5, duration: .1})
+                      pause_input = false
                     } 
                 })
                 break
@@ -133,7 +142,8 @@ class Monster extends Sprite {
                             gsap.to(fangbottom, {opacity: 0,
                             onComplete: () => {
                                 renderedSprites.pop(),
-                                renderedSprites.pop()
+                                renderedSprites.pop(),
+                                pause_input = false
                                 }})}})}}))
                 break
         }
@@ -145,18 +155,24 @@ class Monster extends Sprite {
       document.querySelector('#DialogueBox').style.display = 'block'
       document.querySelector('#DialogueBox').innerHTML = this.name + ' fainted!'       
       console.log(this.name + ' fainted!')
-        gsap.to(this.position, 
-          {
-            y: this.position.y + 20
-          },
-        )
-        gsap.to(
-          this, 
-          {
-            opacity: 0
-          },
-        )
-      }
+      
+      pause_input = true
+      gsap.to(this.position, 
+        {
+          y: this.position.y + 20
+        },
+      )
+      gsap.to(
+        this, 
+        {
+          opacity: 0,
+        
+          onComplete: () => {
+            pause_input = false
+          }
+        },
+      )
+    }
 }
 
 class Character extends Sprite{

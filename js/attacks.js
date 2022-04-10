@@ -1,7 +1,7 @@
 const attacks = {
     Tackle: {
         name: 'Tackle',
-        damage: 10,
+        damage: 25,
         type: 'Normal'
     },
     FireWall: {

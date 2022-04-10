@@ -197,7 +197,7 @@ function animate(){
                 let valid = false
                 //hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
                 //console.log(hash)
-                //fetch(`http://localhost:3000/search/${hash}`)
+                //  **** fetch(`http://localhost:3000/search/${hash}`) *** use this to call random hash '/random'
                 //.then(response => response.json())
                 //.then(json => {
                 //    console.log(json.valid)})
@@ -218,10 +218,7 @@ function animate(){
                 }
                 */
                 battle.initiated = true
-                initBattle()
-                gsap.to('#battle_transition', {opacity: 1, repeat:2, 
-                    onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
-                    onComplete(){ animateBattle(), gsap.to('#battle_transition', {opacity: 0})}})
+                startBattle()
     
                 break
             }
@@ -441,6 +438,8 @@ window.addEventListener('keyup', (e) =>{
         case 'e':
             keys.shift.pressed = false
             break
+        default:
+            KeysPressed = []
 
     }
 })
