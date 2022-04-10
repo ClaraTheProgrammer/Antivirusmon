@@ -200,7 +200,7 @@ async function analyzeHash(hash_input)
     .then(json => {
         battle.initiated = true
         gsap.to('#prompt_overlay', {opacity: 0})
-        startBattle()     
+        startBattle(json)     
     }).catch(error =>{
         console.log(error)
         gsap.to('#prompt_overlay', {opacity: 0,
@@ -228,7 +228,7 @@ async function promptUser()
         onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
         onComplete(){gsap.to('#prompt_overlay', {opacity: 1})}})
 
-    document.getElementById('hash_value').value = '781770fda3bd3236d0ab8274577dddde'
+    document.getElementById('hash_value').value = 'd3c1b641665589473f07587befb949c4'
     
     
 }
