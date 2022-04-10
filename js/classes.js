@@ -132,8 +132,8 @@ class Monster extends Sprite {
                     gsap.to(fangbottom.position, {x: recipient.position.x, y: recipient.position.y + 120, duration: .8}),
                     gsap.to(fangbottom, {opacity: 1, duration: .8, 
                         onComplete: () => {
-                        gsap.to(fangtop.position, {x: recipient.position.x, y: recipient.position.y + 20})
-                        gsap.to(fangbottom.position, {x: recipient.position.x, y: recipient.position.y + 50,
+                        gsap.to(fangtop.position, {x: recipient.position.x, y: recipient.position.y + 20, duration: .2})
+                        gsap.to(fangbottom.position, {x: recipient.position.x, y: recipient.position.y + 50, duration: .2,
                         onComplete: () => {
                             gsap.to(fangtop, {opacity: 0}),
                             gsap.to(recipient.position,{x: recipient.position.x + 10 * facing, yoyo: true, repeat:5, duration: .1}),
