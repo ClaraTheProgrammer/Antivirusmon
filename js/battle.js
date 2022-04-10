@@ -15,13 +15,35 @@ let pause = false
 
 let pause_input = false;
 
+function getMonsterBasedOnFile(file){
+
+}
+
 function startBattle() {
   //randomly get a new monster to fight.  Change later to implement hash
   //random monster = Math.floor(Math.random()*(monsters.enemies.length))
 
   virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length))])
+  virusmon.health = virusmon.maxHealth
+
   renderedSprites = [anti_mon, virusmon]
   queue = []
+
+  if(anti_mon.health <= 0)
+    anti_mon.health = anti_mon.maxHealth
+
+  virusmon.position =         
+  {
+    x: 740,
+    y: 70
+  },
+
+  document.querySelector('#enemyHealthBar').style.width = (virusmon.health/virusmon.maxHealth*100) + '%'
+  document.querySelector('#playerHealthBar').style.width = (anti_mon.health/anti_mon.maxhealth*100) + '%'
+
+  gsap.to(document.querySelector('#enemyHealthBar'), {width: (virusmon.health)/virusmon.maxHealth*100 + '%'})
+  gsap.to(document.querySelector('#playerHealthBar'), {width: (anti_mon.health/anti_mon.maxhealth)*100 + '%'})
+
 
   gsap.to('#battle_transition', {opacity: 1, repeat:2, 
     onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
@@ -30,8 +52,7 @@ function startBattle() {
       gsap.to('#battle_transition', {opacity: 0})
       document.querySelector('#BattleOverlay').style.display = 'block'
       document.querySelector('#DialogueBox').style.display = 'none'
-      document.querySelector('#enemyHealthBar').style.width = (virusmon.health/virusmon.maxhealth) + '%'
-      document.querySelector('#playerHealthBar').style.width = (anti_mon.health/anti_mon.maxhealth) + '100%'
+
       document.querySelector('#attacksBox').replaceChildren()
       initBattle()
     }})
@@ -39,15 +60,6 @@ function startBattle() {
 }
 
 function initBattle() {  
-
-    if(anti_mon.health <= 0)
-      anti_mon.health = anti_mon.maxHealth
-    
-    virusmon.position =         
-    {
-      x: 740,
-      y: 70
-    },
 
     document.querySelector('#DialogueBox').style.display = 'block'
     document.querySelector('#DialogueBox').innerHTML = virusmon.entry_messages[Math.floor(Math.random()*(virusmon.entry_messages.length))]

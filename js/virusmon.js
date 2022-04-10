@@ -9,6 +9,8 @@ playerRun = 4;
 
 KeysPressed = [];
 
+hash_input = ''
+
 const collisionsMap = []
 //puts every 70 element into an array and pushes it into the collisionsMap list
 for( let i = 0; i < collisions.length; i+=70){
@@ -155,7 +157,70 @@ const battle = {
     initiated: false
 }
 
-async function animate(){
+document.getElementById('hash_value').addEventListener("keyup", (e) => {    
+
+    if(e.key == 'Enter')
+    {
+        hash_input = document.getElementById('hash_value').value
+        analyzeHash(hash_input)
+    }
+})
+
+async function analyzeHash(hash_input)
+{
+    valid = false
+
+    if(hash_input === null){
+        return
+    }
+    console.log(hash_input)
+    await fetch(`http://localhost:3000/search/${hash_input}`)
+    .then(response => response.json())
+    .then(json => {
+        if(json.valid)
+        {
+            battle.initiated = true
+            gsap.to('#prompt_overlay', {opacity: 0})
+            startBattle()
+        }
+        else
+        {
+            gsap.to('#prompt_overlay', {opacity: 0,
+            onComplete(){
+                gsap.to('#prompt_response', {opacity: 1,
+                    onComplete(){
+                    //display error
+                    document.getElementById('prompt_response_elaborate').innerHTML = 'error' + json.msg.toString()
+
+                    gsap.to('#prompt_response', {opacity: 1, duration: 5,
+                        onComplete(){
+                            gsap.to('#battle_transition', {opacity: 0,
+                            onComplete(){
+                                gsap.to('#prompt_response', {opacity: 0})
+                            }})
+                            animate()
+                    }})
+                }})
+            }})
+        }      
+    }).catch(error =>{
+        alert(error)
+        gsap.to('#prompt_overlay', {opacity: 0})
+    })
+}
+
+async function promptUser()
+{
+    gsap.to('#battle_transition', {opacity: 1, repeat:2, 
+        onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
+        onComplete(){gsap.to('#prompt_overlay', {opacity: 1})}})
+
+    document.getElementById('hash_value').value = "2d75cc1bf8e57872781f9cd04a529256"
+    
+    
+}
+
+function animate(){
     const animationID = window.requestAnimationFrame(animate)
     //console.log(animationID)
     background.draw()
@@ -196,26 +261,9 @@ async function animate(){
                 
                 let valid = false
                 window.cancelAnimationFrame(animationID)
-                while (!valid) {
-                    hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
-                    if(hash === null){
-                        return
-                    }
-                    console.log(hash)
-                    await fetch(`http://localhost:3000/search/${hash}`)
-                    .then(response => response.json())
-                    .then(json => {
-
-                        valid = json.valid
-                        
-
-                    }).catch(error =>{
-                        alert(error)
-                    })     
-                }
-
-                battle.initiated = true
-                startBattle()
+                KeysPressed = []
+                
+                promptUser();
     
                 break
             }

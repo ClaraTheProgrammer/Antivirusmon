@@ -83,7 +83,8 @@ app.get('/search/:hash', async (req, res) => {
             .then(info => hashInfo = info)
             .catch(error => {
               console.log(error)
-              hashInfo = {valid:false}
+              hashInfo = {valid:false,
+                          msg: error}
             })
   }
   res.send(hashInfo)
