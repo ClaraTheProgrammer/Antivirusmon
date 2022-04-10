@@ -17,10 +17,11 @@
         <header>  
             <div class="topnav" >
                 <h1>Virusmon</h1>
-                <nav id="menu">
+
+                <!-- <nav id="menu">
                     <a href='/'><button>Home</button></a>
                     <a href="/results"><button>Results</button></a>
-                </nav>
+                </nav> -->
                   
             </div>
         </header>
@@ -76,45 +77,35 @@
 
 
             </div>
-            <div id="results-section" style="position:relative; min-height: 1000px;">
-                <div style="position: absolute; bottom: 0; right:0; left:0; height:20px; background-color:black">
-                    <button id="open_bttn">Open</button>
-                </div>
+            <div id="results-section" style="position:relative; height: 1000; margin-top: 40px">
                 <div class="Virus-Dex">
-                    <span class="decoration">
-                        <div class="container" width="auto" height="100" padding-top="50px" text-align="center">
-                            <div class="resultbar" width="100" height="100">
-                                <div class="outerbar">
-                                    <div class="innerbar">
-                                    </div>
-                                </div>
-                                <svg version="1.1" width="100px" height="100px" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="70" cy="70" r="40" stroke-linecap="round"/>
-                                    <circle cx="70" cy="70" r="40" stroke-linecap="round" id="virusfill"/>
-                                </svg>
-                            </div>
-            
-                            <label style="text-align:center; align-items:center;top:0; color:rgb(255, 0, 119);font-weight:bold;">Total: ##</label>
-                        </div>
-                        <div class="container" width="auto" >
+                    <!-- <span class="decoration">
+                        <div style = "display: block;margin-left: auto;margin-right: auto; width: 30%;">
                             
-                            <img src="./images/anti-virusmon.png"  width = "200" height = "170" style="image-rendering: pixelated;" overflow="hidden" display="inline-block" >
+                            <img id = "dex-img" src="./images/anti-virusmon.png"  width = "200" height = "170" style="image-rendering: pixelated;" overflow="hidden" display="inline-block" >
                             
                         </div>
-                        <div class="container" width="auto" padding="50px">
-                            <div>blah blah blah</div>
-                            <div>blah blah blah</div>
+                    </span >-->
+                    <h1 id="virusmon_hash" style = "width: 100%; text-align: center; padding: 10px;" >...</h1>
+                    <span style="width:100%; margin-top:50px" >
+                        <div style = "display: inline-block; width: 30%; margin-right: 4%; background-color: rgb(207, 207, 207)">                        
+                            <h1 style="text-align: center; font-size: 20px; width: 100%;">Size</h1>
+                            <h1 id = "file_size" style="text-align: center; font-size: 20px; width: 100%;">20</h1>
                         </div>
-                    </span >
-                    <table id="center">
+                        <div style = "display: inline-block; width: 30%; margin-right: 4%; background-color: rgb(207, 207, 207)">                        
+                            <h1 style="text-align: center; font-size: 20px; width: 100%;">Type</h1>
+                            <h1 id = "file_type" style="text-align: center; font-size: 20px; width: 100%;">20</h1>
+                        </div>
+                        <div style = "display: inline-block; width: 30%; background-color: rgb(207, 207, 207)">                        
+                            <h1 style="text-align: center; font-size: 20px; width: 100%;">Reputation</h1>
+                            <h1 id = "file_reputation" style="text-align: center; font-size: 20px; width: 100%;">20</h1>
+                        </div>
+                    </span>
+                    <table id="table" style = "width: 100%;">
                         <tr>
-                            <th>Anti-Software</th>
-                            <th>Malicious Files</th>
+                            <th>File Names</th>
                         </tr>
-                        <tr>
-                            <td>blah blah blah</td>
-                            <td>blah blah blah</td>
-                        </tr>
+                        <tr></tr>
                 
                     </table>
                 </div>

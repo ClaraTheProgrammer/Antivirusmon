@@ -15,19 +15,63 @@ let pause = false
 
 let pause_input = false;
 
-function getMonsterBasedOnFile(file){
+function init_pokedex(file){
 
+  document.querySelector('#virusmon_hash').innerHTML = file.md5
+
+  document.querySelector('#file_size').innerHTML = file.size
+  document.querySelector('#file_type').innerHTML = file.type_description
+  document.querySelector('#file_reputation').innerHTML = file.reputation
+
+  table = document.querySelector('#table')
+  for (i=0; i < file.names.length; i++) {
+      temp = document.createElement('tr')
+      temp.innerHTML = file.names[i]
+      table.append(temp)
+    } 
+
+
+  gsap.to(document.querySelector('#results-section'), {height: 500 + file.names.length * 15 })
 }
 
-function startBattle() {
+function getMonsterBasedOnFile(file){
+  monsterVal = monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length-1))]
+
+  temp_total = file.last_analysis_stats.malicious + file.last_analysis_stats.undetected
+  health = file.size/100000
+
+  if(temp_total > 0)
+    monsterVal.strength = file.last_analysis_stats.malicious/temp_total * 10
+  
+  if(health < 100)
+    health = 100
+
+    monsterVal.maxHealth = health
+
+    console.log(monsterVal)
+    return monsterVal
+}
+
+function startBattle(file = null, str = "") {
   //randomly get a new monster to fight.  Change later to implement hash
   //random monster = Math.floor(Math.random()*(monsters.enemies.length))
 
-  virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length))])
+  if(str == 'Cardboardian')
+    virusmon = new Monster(monsters.enemies[3])
+  else if(str == 'random')
+    virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length-1))])
+  else
+    virusmon = new Monster(getMonsterBasedOnFile(file))
+
   virusmon.health = virusmon.maxHealth
 
   renderedSprites = [anti_mon, virusmon]
   queue = []
+
+  if(file != null)
+  {
+    init_pokedex(file)
+  }
 
   if(anti_mon.health <= 0)
     anti_mon.health = anti_mon.maxHealth
@@ -43,6 +87,7 @@ function startBattle() {
 
   gsap.to(document.querySelector('#enemyHealthBar'), {width: (virusmon.health)/virusmon.maxHealth*100 + '%'})
   gsap.to(document.querySelector('#playerHealthBar'), {width: (anti_mon.health/anti_mon.maxhealth)*100 + '%'})
+
 
 
   gsap.to('#battle_transition', {opacity: 1, repeat:2, 
@@ -107,6 +152,7 @@ function initBattle() {
                 })
   
                 battle.initiated = false
+                gsap.to(document.querySelector('#results-section'), {height: 0})
               }
             })
           })
@@ -141,6 +187,7 @@ function initBattle() {
                     opacity: 0
                   })
                   battle.initiated = false
+                  gsap.to(document.querySelector('#results-section'), {height: 0})
                 }
               })
             })

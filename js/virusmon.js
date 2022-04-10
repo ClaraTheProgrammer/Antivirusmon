@@ -166,6 +166,15 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
     }
 })
 
+async function getRandomHash()
+{
+    await fetch(`http://localhost:3000/random`)
+    .then(response => response.json())
+    .then(json => {
+        return json.md5
+    }).catch(error =>{})
+}
+
 async function analyzeHash(hash_input)
 {
     valid = false
@@ -173,6 +182,15 @@ async function analyzeHash(hash_input)
     if(hash_input === null){
         return
     }
+
+    if(hash_input == 'Cardboardian')
+    {
+        battle.initiated = true
+        gsap.to('#prompt_overlay', {opacity: 0})
+        startBattle(hash_input)
+        return
+    }
+
     console.log(hash_input)
     await fetch(`http://localhost:3000/search/${hash_input}`)
     .then(response => response.json())
@@ -181,7 +199,7 @@ async function analyzeHash(hash_input)
         {
             battle.initiated = true
             gsap.to('#prompt_overlay', {opacity: 0})
-            startBattle()
+            startBattle(json)
         }
         else
         {
@@ -189,9 +207,6 @@ async function analyzeHash(hash_input)
             onComplete(){
                 gsap.to('#prompt_response', {opacity: 1,
                     onComplete(){
-                    //display error
-                    document.getElementById('prompt_response_elaborate').innerHTML = 'error' + json.msg.toString()
-
                     gsap.to('#prompt_response', {opacity: 1, duration: 5,
                         onComplete(){
                             gsap.to('#battle_transition', {opacity: 0,
@@ -215,7 +230,7 @@ async function promptUser()
         onComplete(){ gsap.to('#battle_transition', {opacity: 1})},
         onComplete(){gsap.to('#prompt_overlay', {opacity: 1})}})
 
-    document.getElementById('hash_value').value = "2d75cc1bf8e57872781f9cd04a529256"
+    document.getElementById('hash_value').value = '781770fda3bd3236d0ab8274577dddde'
     
     
 }
