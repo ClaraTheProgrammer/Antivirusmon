@@ -25,7 +25,7 @@ function VT_Api(hash) {
         })
         .then(data => data.data.attributes)
         .then(attributes => {
-            return {
+            var hash_info = {
                 crowdsourced_ids_stats: attributes.crowdsourced_ids_stats,
                 last_analysis_stats: attributes.last_analysis_stats,
                 md5: attributes.md5,
@@ -37,13 +37,11 @@ function VT_Api(hash) {
                 size: attributes.size,
                 type_description: attributes.type_description,
                 type_extension: attributes.type_extension,
-                type_tag: attributes.type_tag,
-                valid: true
+                type_tag: attributes.type_tag
             }
-        })
-        .then(hash_info => {
             db.data[hash] = hash_info
             db.write()
+            return hash_info
         })
 }
 
@@ -77,23 +75,31 @@ app.get('/results', function (req, res) {
 
 //GET request to /seach/:hash and return object representing file hash
 app.get('/search/:hash', async (req, res) => {
-  var hashInfo = db.data[req.params.hash]
+  let hashInfo = db.data[req.params.hash]
   if (hashInfo == undefined) {
       await VT_Api(req.params.hash)
-            .then(info => hashInfo = info)
-            .catch(error => {
-              console.log(error)
-              hashInfo = {valid:false,
-                          msg: error}
-            })
+        .then(info => {
+          res.send(info)
+        })
+        .catch(error => {
+          console.log(error)
+          res.status(400).send(error.message)
+        })
   }
-  res.send(hashInfo)
+  else {
+    res.send(hashInfo)
+  }
 })
 
 //GET request to /random and return object representing random file hash
 app.get('/random', function (req, res) {
   const keys = Object.keys(db.data)
-  res.send(db.data[keys[Math.floor(Math.random() * keys.length)]])
+  if (keys.length) {
+    res.send(db.data[keys[Math.floor(Math.random() * keys.length)]])
+  }
+  else {
+    res.status(400).send('no hash data detected in the database')
+  }
 })
 
 app.listen(3000);

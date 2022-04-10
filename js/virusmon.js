@@ -168,44 +168,39 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
 
 async function analyzeHash(hash_input)
 {
-    valid = false
-
     if(hash_input === null){
         return
     }
     console.log(hash_input)
     await fetch(`http://localhost:3000/search/${hash_input}`)
-    .then(response => response.json())
-    .then(json => {
-        if(json.valid)
-        {
-            battle.initiated = true
-            gsap.to('#prompt_overlay', {opacity: 0})
-            startBattle()
+    .then(response => {
+        if(response.ok) {
+            return response.json()
         }
-        else
-        {
-            gsap.to('#prompt_overlay', {opacity: 0,
-            onComplete(){
-                gsap.to('#prompt_response', {opacity: 1,
+        return response.text().then(text => {throw new Error(text)})
+    })
+    .then(json => {
+        battle.initiated = true
+        gsap.to('#prompt_overlay', {opacity: 0})
+        startBattle()     
+    }).catch(error =>{
+        console.log(error)
+        gsap.to('#prompt_overlay', {opacity: 0,
+        onComplete(){
+            gsap.to('#prompt_response', {opacity: 1,
+                onComplete(){
+                //display error
+                document.getElementById('prompt_response_elaborate').innerHTML = error.message
+                gsap.to('#prompt_response', {opacity: 1, duration: 3,
                     onComplete(){
-                    //display error
-                    document.getElementById('prompt_response_elaborate').innerHTML = 'error' + json.msg.toString()
-
-                    gsap.to('#prompt_response', {opacity: 1, duration: 5,
+                        gsap.to('#battle_transition', {opacity: 0,
                         onComplete(){
-                            gsap.to('#battle_transition', {opacity: 0,
-                            onComplete(){
-                                gsap.to('#prompt_response', {opacity: 0})
-                            }})
-                            animate()
-                    }})
+                            gsap.to('#prompt_response', {opacity: 0})
+                        }})
+                        animate()
                 }})
             }})
-        }      
-    }).catch(error =>{
-        alert(error)
-        gsap.to('#prompt_overlay', {opacity: 0})
+        }})
     })
 }
 
