@@ -155,7 +155,7 @@ const battle = {
     initiated: false
 }
 
-function animate(){
+async function animate(){
     const animationID = window.requestAnimationFrame(animate)
     //console.log(animationID)
     background.draw()
@@ -193,30 +193,27 @@ function animate(){
                 console.log('battling')
                 
                 let hash;
-                //console.log(hash)
+                
                 let valid = false
-                //hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
-                //console.log(hash)
-                //  **** fetch(`http://localhost:3000/search/${hash}`) *** use this to call random hash '/random'
-                //.then(response => response.json())
-                //.then(json => {
-                //    console.log(json.valid)})
-                        
-
                 window.cancelAnimationFrame(animationID)
-                /*  Prompting the user for file hash!!!!!!!!
-
-                while (hash === null || hash === "" || valid === false) {
+                while (!valid) {
                     hash = prompt("Please enter a hash:", "2d75cc1bf8e57872781f9cd04a529256")
+                    if(hash === null){
+                        return
+                    }
                     console.log(hash)
-                    fetch(`http://localhost:3000/search/${hash}`)
+                    await fetch(`http://localhost:3000/search/${hash}`)
                     .then(response => response.json())
                     .then(json => {
-                        if(json.valid)
-                            valid = true
-                    })           
+
+                        valid = json.valid
+                        
+
+                    }).catch(error =>{
+                        alert(error)
+                    })     
                 }
-                */
+
                 battle.initiated = true
                 startBattle()
     
