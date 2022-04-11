@@ -26,6 +26,7 @@ function VT_Api(hash) {
         .then(data => data.data.attributes)
         .then(attributes => {
             var hash_info = {
+                last_analysis_results: attributes.last_analysis_results,
                 crowdsourced_ids_stats: attributes.crowdsourced_ids_stats,
                 last_analysis_stats: attributes.last_analysis_stats,
                 md5: attributes.md5,
