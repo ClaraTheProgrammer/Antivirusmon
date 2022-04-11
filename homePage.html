@@ -86,7 +86,10 @@
                             
                         </div>
                     </span >-->
-                    <h1 id="virusmon_hash" style = "width: 100%; text-align: center; padding: 10px;" >...</h1>
+                    <h1 id="md5" style = "width: 100%; text-align: center; padding: 10px; font-weight: bold; font-size: 40px;" >...</h1>
+                    <h1 id="sha256" style = "width: 100%; text-align: center; padding: 5px; font-size: 14px; color: rgb(119, 102, 113);" >...</h1>
+                    <h1 id="sha1" style = "width: 100%; text-align: center; padding: 5px; padding-bottom: 20; font-size: 14px; color: rgb(119, 102, 113);" >...</h1>
+
                     <span style="width:100%; margin-top:50px" >
                         <div style = "display: inline-block; width: 30%; margin-right: 4%; background-color: rgb(207, 207, 207)">                        
                             <h1 style="text-align: center; font-size: 20px; width: 100%;">Size</h1>
@@ -101,13 +104,28 @@
                             <h1 id = "file_reputation" style="text-align: center; font-size: 20px; width: 100%;">20</h1>
                         </div>
                     </span>
-                    <table id="table" style = "width: 100%;">
-                        <tr>
-                            <th>File Names</th>
-                        </tr>
-                        <tr></tr>
-                
-                    </table>
+                    <span style = "height: auto; position: absolute; right: 100px; left: 100px; bottom: 0; top:250px">
+                        <div style = "position: absolute; left: 0; left: 0%; top:0; right:65%; bottom:0;">
+                            <h1 style = "background-color: #6e6e6e;color: white; height: 95px; text-align: left; font-size: 25px; padding: 30px; margin-bottom: 30px;"> Analysis Stats </h1>
+
+                            <h1 class = "last_analysis_stats" id = "harmless">harmless: </h1>
+                            <h1 class = "last_analysis_stats" id = "type-unsupported">type-unsupported: </h1>
+                            <h1 class = "last_analysis_stats" id = "suspicious">suspicious: </h1>
+                            <h1 class = "last_analysis_stats" id = "confirmed-timeout">confirmed-timeout: </h1>
+                            <h1 class = "last_analysis_stats" id = "timeout">timeout: </h1>
+                            <h1 class = "last_analysis_stats" id = "failure">failure: </h1>
+                            <h1 class = "last_analysis_stats, text-glitch" id = "malicious" style = "background-color: grey; padding: 10px">malicious: </h1>
+                            <h1 class = "last_analysis_stats" id = "undetected">undetected: </h1>
+                        </div>
+                        <div style="position: absolute; left: 40%; top:0; right:0; bottom:0; display: inline-block;">
+                            <table id="table">
+                                <tr>
+                                    <th>File Names</th>
+                                </tr>
+                        
+                            </table>
+                        </div>
+                    </span>
                 </div>
                 </div>
             </div>

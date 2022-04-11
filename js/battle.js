@@ -16,14 +16,37 @@ let pause = false
 let pause_input = false;
 
 function init_pokedex(file){
+  
+  document.querySelector('#md5').innerHTML = file.md5
+  document.querySelector('#sha1').innerHTML = 'sha1: ' + file.sha1
+  document.querySelector('#sha256').innerHTML = 'sha256: ' + file.sha256
 
-  document.querySelector('#virusmon_hash').innerHTML = file.md5
+  document.querySelector('#harmless').innerHTML = 'harmless: ' +  file.last_analysis_stats.harmless
+  document.querySelector('#type-unsupported').innerHTML = 'type-unsupported: ' +  file.last_analysis_stats['type-unsupported']
+  document.querySelector('#suspicious').innerHTML = 'suspicious: ' + file.last_analysis_stats.suspicious
+  document.querySelector('#confirmed-timeout').innerHTML = 'confirmed-timeout: ' +  file.last_analysis_stats['confirmed-timeout']
+  document.querySelector('#timeout').innerHTML = 'timeout: ' + file.last_analysis_stats.timeout
+  document.querySelector('#failure').innerHTML = 'failure: ' + file.last_analysis_stats.failure
+  document.querySelector('#malicious').innerHTML = 'malicious: ' + file.last_analysis_stats.malicious
+  document.querySelector('#undetected').innerHTML = 'undetected: ' + file.last_analysis_stats.undetected
+
+
 
   document.querySelector('#file_size').innerHTML = file.size
   document.querySelector('#file_type').innerHTML = file.type_description
   document.querySelector('#file_reputation').innerHTML = file.reputation
 
+  document.querySelector('#table').replaceChildren()
+
+
   table = document.querySelector('#table')
+  temp = document.createElement('tr')
+  temp_header = document.createElement('th')
+  temp_header.innerHTML = "File Names"
+
+  temp.append(temp_header)
+  table.append(temp)
+  
   for (i=0; i < file.names.length; i++) {
       temp = document.createElement('tr')
       temp.innerHTML = file.names[i]
@@ -31,7 +54,7 @@ function init_pokedex(file){
     } 
 
 
-  gsap.to(document.querySelector('#results-section'), {height: 500 + file.names.length * 15 })
+  gsap.to(document.querySelector('#results-section'), {height: 1000})
 }
 
 function getMonsterBasedOnFile(file){
@@ -60,8 +83,30 @@ function startBattle(file = null, str = "") {
     virusmon = new Monster(monsters.enemies[3])
   else if(str == 'random')
     virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length-1))])
-  else
+  else if(file != null)
+  {
     virusmon = new Monster(getMonsterBasedOnFile(file))
+    init_pokedex(file)
+  }
+  else
+  {
+    gsap.to('#prompt_overlay', {opacity: 0,
+      onComplete(){
+          gsap.to('#prompt_response', {opacity: 1,
+              onComplete(){
+              //display error
+              document.getElementById('prompt_response_elaborate').innerHTML = 'An error has occurred'
+              gsap.to('#prompt_response', {opacity: 1, duration: 3,
+                  onComplete(){
+                      gsap.to('#battle_transition', {opacity: 0,
+                      onComplete(){
+                          gsap.to('#prompt_response', {opacity: 0})
+                      }})
+                      animate()
+              }})
+          }})
+      }})
+  }
 
   virusmon.health = virusmon.maxHealth
 
@@ -70,7 +115,6 @@ function startBattle(file = null, str = "") {
 
   if(file != null)
   {
-    init_pokedex(file)
   }
 
   if(anti_mon.health <= 0)
@@ -82,12 +126,8 @@ function startBattle(file = null, str = "") {
     y: 70
   },
 
-  document.querySelector('#enemyHealthBar').style.width = (virusmon.health/virusmon.maxHealth*100) + '%'
-  document.querySelector('#playerHealthBar').style.width = (anti_mon.health/anti_mon.maxhealth*100) + '%'
-
   gsap.to(document.querySelector('#enemyHealthBar'), {width: (virusmon.health)/virusmon.maxHealth*100 + '%'})
   gsap.to(document.querySelector('#playerHealthBar'), {width: (anti_mon.health/anti_mon.maxhealth)*100 + '%'})
-
 
 
   gsap.to('#battle_transition', {opacity: 1, repeat:2, 
@@ -138,24 +178,7 @@ function initBattle() {
           queue.push(() => {
             virusmon.faint()
           })
-          queue.push(() => {
-            // fade back to black
-            gsap.to('#battle_transition', {
-              opacity: 1,
-              onComplete: () => {
-                cancelAnimationFrame(battleAnimationId)
-                animate()
-                document.querySelector('#BattleOverlay').style.display = 'none'
-  
-                gsap.to('#battle_transition', {
-                  opacity: 0
-                })
-  
-                battle.initiated = false
-                gsap.to(document.querySelector('#results-section'), {height: 0})
-              }
-            })
-          })
+          endBattle()
         }
   
         //enemy's attack
@@ -173,24 +196,8 @@ function initBattle() {
           {
             queue.push(() => {
             anti_mon.faint()})
-  
-            queue.push(() => {
-              // fade back to black
-              gsap.to('#battle_transition', {
-                opacity: 1,
-                onComplete: () => {
-                  cancelAnimationFrame(battleAnimationId)
-                  animate()
-                  document.querySelector('#BattleOverlay').style.display = 'none'
-  
-                  gsap.to('#battle_transition', {
-                    opacity: 0
-                  })
-                  battle.initiated = false
-                  gsap.to(document.querySelector('#results-section'), {height: 0})
-                }
-              })
-            })
+
+            endBattle()
           }
         })
       })
@@ -202,7 +209,28 @@ function initBattle() {
         //document.querySelector('#attackType').style.color = selectedAttack.color
       })
     })
-  }
+}
+
+function endBattle(){
+  queue.push(() => {
+    // fade back to black
+    gsap.to('#battle_transition', {
+      opacity: 1,
+      onComplete: () => {
+        cancelAnimationFrame(battleAnimationId)
+        animate()
+        document.querySelector('#BattleOverlay').style.display = 'none'
+
+        gsap.to('#battle_transition', {
+          opacity: 0
+        })
+        battle.initiated = false
+        gsap.to(document.querySelector('#results-section'), {height: 0})
+        KeysPressed = []
+      }
+    })
+  })
+}
 
 function animateBattle(){
     battleAnimationId  = window.requestAnimationFrame(animateBattle)

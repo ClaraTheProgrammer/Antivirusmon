@@ -121,3 +121,9 @@ svg{
 .Virus-Dex::content *{
     overflow: hidden;
 }
+
+.last_analysis_stats{
+    font-size: 20px;
+    margin-bottom: 10px;
+
+}

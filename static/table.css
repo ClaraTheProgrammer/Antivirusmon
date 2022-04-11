@@ -1,11 +1,12 @@
 table{
     
-    width: 75%;
+    width: 100%;
+    height: auto;
     border-collapse: collapse;
     overflow-y: scroll;
 }
 
-th, td {
+th, tr {
     padding: 30px;
     text-align: left;
 }
@@ -15,8 +16,9 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 tr:hover {background-color: rgb(170, 213, 238);}
 
 tr{
-    height: 10px;
+    height: 20px;
     margin: 0px;
+    font-size:15px
 }
 
 th {
@@ -24,6 +26,7 @@ th {
     color: white;
     height: 70px;
     text-align: left;
+    font-size: 25px;
   }
 
 td{

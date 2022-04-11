@@ -185,7 +185,7 @@ async function analyzeHash(hash_input)
     {
         battle.initiated = true
         gsap.to('#prompt_overlay', {opacity: 0})
-        startBattle(hash_input)
+        startBattle(null, hash_input)
         return
     }
 
