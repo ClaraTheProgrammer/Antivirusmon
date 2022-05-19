@@ -113,9 +113,9 @@ function startBattle(file = null, str = "") {
   renderedSprites = [anti_mon, virusmon]
   queue = []
 
-  if(file != null)
-  {
-  }
+  //if(file != null)
+  //{
+  //}
 
   if(anti_mon.health <= 0)
     anti_mon.health = anti_mon.maxHealth
@@ -126,8 +126,11 @@ function startBattle(file = null, str = "") {
     y: 70
   },
 
+  console.log("initializing healthbar")
+  console.log(anti_mon)
+  console.log((anti_mon.health)/anti_mon.maxhealth*100 + '%')
   gsap.to(document.querySelector('#enemyHealthBar'), {width: (virusmon.health)/virusmon.maxHealth*100 + '%'})
-  gsap.to(document.querySelector('#playerHealthBar'), {width: (anti_mon.health/anti_mon.maxhealth)*100 + '%'})
+  gsap.to(document.querySelector('#playerHealthBar'), {width: (anti_mon.health)/anti_mon.maxHealth*100 + '%'})
 
 
   gsap.to('#battle_transition', {opacity: 1, repeat:2, 

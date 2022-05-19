@@ -162,7 +162,7 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
     if(e.key == 'Enter')
     {
         hash_input = document.getElementById('hash_value').value
-        analyzeHash(hash_input)
+        game_analyzeHash(hash_input)
     }
 })
 
@@ -175,7 +175,7 @@ async function getRandomHash()
     }).catch(error =>{})
 }
 
-async function analyzeHash(hash_input)
+async function game_analyzeHash(hash_input)
 {
     if(hash_input === null){
         return

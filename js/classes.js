@@ -1,5 +1,5 @@
 class Sprite {
-    constructor({position, image, frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0}, entry_messages) {
+    constructor({position, image, frames = { max: 1, hold: 10 }, sprites, animate = false, rotation = 0}) {
       this.position = position
       this.image = new Image()
       this.frames = { ...frames, val: 0, elapsed: 0 }
@@ -14,8 +14,6 @@ class Sprite {
       this.opacity = 1
   
       this.rotation = rotation
-
-      
     }
   
     draw() {
