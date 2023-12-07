@@ -199,6 +199,15 @@ upButton.addEventListener("mouseup", function() {
     }
     keys.w.pressed = false
 });
+upButton.addEventListener("mouseleave", function() {
+    console.log("Up Button Released")
+    index = KeysPressed.indexOf('w');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.w.pressed = false
+});
 
 //Down Button
 downButton.addEventListener("mousedown", function() {
@@ -208,6 +217,15 @@ downButton.addEventListener("mousedown", function() {
     keysUI.s.pressed = true
 });
 downButton.addEventListener("mouseup", function() {
+    console.log("Down Button Released")
+    index = KeysPressed.indexOf('s');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.s.pressed = false
+});
+downButton.addEventListener("mouseleave", function() {
     console.log("Down Button Released")
     index = KeysPressed.indexOf('s');
     if (index > -1) 
@@ -233,6 +251,15 @@ leftButton.addEventListener("mouseup", function() {
     }
     keys.a.pressed = false
 });
+leftButton.addEventListener("mouseleave", function() {
+    console.log("Left Button Released")
+    index = KeysPressed.indexOf('a');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.a.pressed = false
+});
 
 // Right Button
 rightButton.addEventListener("mousedown", function() {
@@ -242,6 +269,15 @@ rightButton.addEventListener("mousedown", function() {
     keysUI.d.pressed = true
 });
 rightButton.addEventListener("mouseup", function() {
+    console.log("Right Button Released")
+    index = KeysPressed.indexOf('d');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.d.pressed = false
+});
+rightButton.addEventListener("mouseleave", function() {
     console.log("Right Button Released")
     index = KeysPressed.indexOf('d');
     if (index > -1) 
