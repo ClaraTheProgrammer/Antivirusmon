@@ -168,7 +168,7 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
 
 async function getRandomHash()
 {
-    await fetch(`http://localhost:3000/random`)
+    await fetch(`https://claratheprogrammer.github.io/Antivirusmon/random`)
     .then(response => response.json())
     .then(json => {
         return json.md5
@@ -190,7 +190,7 @@ async function game_analyzeHash(hash_input)
     }
 
     console.log(hash_input)
-    await fetch(`http://localhost:3000/search/${hash_input}`)
+    await fetch(`https://claratheprogrammer.github.io/Antivirusmon/${hash_input}`)
     .then(response => {
         if(response.ok) {
             return response.json()
