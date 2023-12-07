@@ -194,7 +194,7 @@ async function game_analyzeHash(hash_input)
         var obj_keys = Object.keys(data)
         var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)]
         var obj = obj_keys[ran_key]
-        return obj.json
+        return obj
     }).then(json => {
         battle.initiated = true
         gsap.to('#prompt_overlay', {opacity: 0})
