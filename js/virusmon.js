@@ -190,7 +190,7 @@ async function game_analyzeHash(hash_input)
     }
 
     console.log(hash_input)
-    await fetch(`https://claratheprogrammer.github.io/Antivirusmon/${hash_input}`)
+    await fetch(`https://claratheprogrammer.github.io/Antivirusmon/search/${hash_input}`)
     .then(response => {
         if(response.ok) {
             return response.json()
