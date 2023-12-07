@@ -249,7 +249,7 @@ async function promptUser()
 async function WorldToBattleTransition()
 {
     gsap.to('#battle_transition', {opacity: 1, repeat:2, 
-        onComplete(){ gsap.to('#battle_transition', {opacity: 0, repeat:1, onComplete(){
+        onComplete(){ gsap.to('#battle_transition', {opacity: 0, onComplete(){
             game_analyzeHashNoPrompt()
         }})}})        
 }
