@@ -195,7 +195,7 @@ async function game_analyzeHash(hash_input)
         console.log("Total malicious entries" + obj_keys.length);
         var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)]
         var obj = obj_keys[ran_key]
-        return obj
+        return obj.data
     }).then(json => {
         battle.initiated = true
         gsap.to('#prompt_overlay', {opacity: 0})
