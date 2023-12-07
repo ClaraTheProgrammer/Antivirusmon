@@ -189,6 +189,36 @@ async function game_analyzeHash(hash_input)
         return
     }
 
+    await fetch(`https://claratheprogrammer.github.io/Antivirusmon/db.json`)
+    .then(response => response.json()).then(data => {
+        var obj_keys = Object.keys(data)
+        var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)]
+        var obj = obj_keys[ran_key]
+        return obj.json
+    }).then(json => {
+        battle.initiated = true
+        gsap.to('#prompt_overlay', {opacity: 0})
+        startBattle(json)     
+    }).catch(error =>{
+        console.log(error)
+        gsap.to('#prompt_overlay', {opacity: 0,
+        onComplete(){
+            gsap.to('#prompt_response', {opacity: 1,
+                onComplete(){
+                //display error
+                document.getElementById('prompt_response_elaborate').innerHTML = error.message
+                gsap.to('#prompt_response', {opacity: 1, duration: 3,
+                    onComplete(){
+                        gsap.to('#battle_transition', {opacity: 0,
+                        onComplete(){
+                            gsap.to('#prompt_response', {opacity: 0})
+                        }})
+                        animate()
+                }})
+            }})
+        }})
+    })
+    /*
     console.log(hash_input)
     await fetch(`https://claratheprogrammer.github.io/Antivirusmon/search/${hash_input}`)
     .then(response => {
@@ -219,7 +249,7 @@ async function game_analyzeHash(hash_input)
                 }})
             }})
         }})
-    })
+    }) */
 }
 
 async function promptUser()
