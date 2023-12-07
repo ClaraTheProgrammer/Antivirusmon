@@ -226,6 +226,7 @@ downButton.addEventListener("touchend", function() {
 });
 downButton.addEventListener("touchcancel", function() {
     ButtonPReleased('s')
+});
 
 //Left Button
 leftButton.addEventListener("mousedown", function() {
