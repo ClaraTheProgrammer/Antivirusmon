@@ -278,7 +278,7 @@ function endBattle(){
           opacity: 0
         })
         battle.initiated = false
-        gsap.to(document.querySelector('#results-section'), {height: 0, onComplete(){gsap.to('#ArrowKeyHolders', {height: 500})}})
+        gsap.to(document.querySelector('#results-section'), {height: 0, onComplete(){gsap.to('#ArrowKeyHolders', {height: 180})}})
         KeysPressed = []
       }
     })
