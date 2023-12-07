@@ -192,6 +192,7 @@ async function game_analyzeHash(hash_input)
     await fetch(`https://claratheprogrammer.github.io/Antivirusmon/db.json`)
     .then(response => response.json()).then(data => {
         var obj_keys = Object.keys(data)
+        console.log("Total malicious entries" + obj_keys.length);
         var ran_key = obj_keys[Math.floor(Math.random() *obj_keys.length)]
         var obj = obj_keys[ran_key]
         return obj
