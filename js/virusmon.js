@@ -177,108 +177,68 @@ downButton = document.getElementById("DownButton")
 leftButton = document.getElementById("LeftButton")
 rightButton = document.getElementById("RightButton")
 
-//Up Button
-upButton.addEventListener("pointerdown", function() {
-    console.log("Up Button Pressed")
-    
-    KeysPressed.push('w');
-    keys.w.pressed = true
-});
-upButton.addEventListener("pointerup", function() {
-    console.log("Up Button Released")
-    index = KeysPressed.indexOf('w');
+function ButtonPressed(button) {
+    console.log(button + " Button Pressed")        
+    KeysPressed.push(button);}
+function ButtonPReleased(button) {
+    console.log(button + " Button Released")
+    index = KeysPressed.indexOf(button);
     if (index > -1) 
     {
         KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
     }
-    keys.w.pressed = false
-});
-upButton.addEventListener("pointerleave", function() {
-    console.log("Up Button Released")
-    index = KeysPressed.indexOf('w');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.w.pressed = false
-});
+}
 
+//UpButton
+upButton.addEventListener("mousedown", function() {
+    ButtonPressed('w')
+});
+upButton.addEventListener("touchstart", function() {
+    ButtonPressed('w')
+});
+upButton.addEventListener("mouseup", function() {
+    ButtonPReleased('w')
+});
+upButton.addEventListener("mouseleave", function() {
+    ButtonPReleased('w')
+});
+upButton.addEventListener("touchend", function() {
+    ButtonPReleased('w')
+});
+upButton.addEventListener("touchcancel", function() {
+    ButtonPReleased('w')
+});
 //Down Button
 downButton.addEventListener("mousedown", function() {
-    console.log("Down Button Pressed")
-    
-    KeysPressed.push('s');
-    keys.s.pressed = true
+    ButtonPressed('s')
 });
 downButton.addEventListener("mouseup", function() {
-    console.log("Down Button Released")
-    index = KeysPressed.indexOf('s');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.s.pressed = false
+    ButtonPReleased('s')
 });
 downButton.addEventListener("mouseleave", function() {
-    console.log("Down Button Released")
-    index = KeysPressed.indexOf('s');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.s.pressed = false
+    ButtonPReleased('s')
 });
 
 //Left Button
 leftButton.addEventListener("mousedown", function() {
-    console.log("Left Button Pressed")
-    
-    KeysPressed.push('a');
-    keys.a.pressed = true
+    ButtonPressed('a')
 });
 leftButton.addEventListener("mouseup", function() {
-    console.log("Left Button Released")
-    index = KeysPressed.indexOf('a');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.a.pressed = false
+    ButtonPReleased('a')
 });
 leftButton.addEventListener("mouseleave", function() {
-    console.log("Left Button Released")
-    index = KeysPressed.indexOf('a');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.a.pressed = false
+    ButtonPReleased('a')
 });
 
-// Right Button
+//Right Button
 rightButton.addEventListener("mousedown", function() {
-    console.log("Right Button Pressed")
-    
-    KeysPressed.push('d');
-    keys.d.pressed = true
+    ButtonPressed('a')
 });
 rightButton.addEventListener("mouseup", function() {
-    console.log("Right Button Released")
-    index = KeysPressed.indexOf('d');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.d.pressed = false
+    ButtonPReleased('a')
 });
 rightButton.addEventListener("mouseleave", function() {
-    console.log("Right Button Released")
-    index = KeysPressed.indexOf('d');
-    if (index > -1) 
-    {
-        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
-    }
-    keys.d.pressed = false
+    ButtonPReleased('a')
 });
 
 // END OF BUTTON INPUTS
@@ -391,7 +351,7 @@ function animate(){
     if(battle.initiated) 
         return
 
-    if(keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed){
+    if(KeysPressed.includes("w") || KeysPressed.includes("s") || KeysPressed.includes("a") || KeysPressed.includes("d")){
         for(let i = 0; i< battleZones.length; i++){
             const battleZone = battleZones[i]
             const overlappingArea = 
