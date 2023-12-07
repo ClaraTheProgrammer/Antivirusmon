@@ -175,6 +175,18 @@ async function getRandomHash()
     }).catch(error =>{})
 }
 
+async function game_analyzeHashNoPrompt()
+{
+    var obj
+    const keys = Object.keys(fakeDataBase)
+        
+    obj = fakeDataBase[keys[Math.floor(Math.random() * keys.length)]]
+
+    battle.initiated = true
+    gsap.to('#prompt_overlay', {opacity: 0})
+    startBattle(obj)     
+}
+
 async function game_analyzeHash(hash_input)
 {
     if(hash_input === null){
@@ -188,16 +200,7 @@ async function game_analyzeHash(hash_input)
         startBattle(null, hash_input)
         return
     }
-
-    var obj
-    const keys = Object.keys(fakeDataBase)
-        
-    obj = fakeDataBase[keys[Math.floor(Math.random() * keys.length)]]
-
-    battle.initiated = true
-    gsap.to('#prompt_overlay', {opacity: 0})
-    startBattle(obj)     
-    /*
+    
     console.log(hash_input)
     await fetch(`https://claratheprogrammer.github.io/Antivirusmon/search/${hash_input}`)
     .then(response => {
@@ -228,7 +231,7 @@ async function game_analyzeHash(hash_input)
                 }})
             }})
         }})
-    }) */
+    })
 }
 
 // changing a bit so not really prompting user :( )
@@ -248,7 +251,7 @@ async function WorldToBattleTransition()
     gsap.to('#battle_transition', {opacity: 1, repeat:2, 
         onComplete(){ gsap.to('#battle_transition', {opacity: 1, repeat:1})}})    
     
-    game_analyzeHash(hash_input)
+    game_analyzeHashNoPrompt()
 }
 
 function animate(){
