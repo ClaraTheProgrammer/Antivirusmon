@@ -107,6 +107,7 @@ function startBattle(file = null, str = "") {
           }})
       }})
   }
+}
 
   function startBattleNoPrompt(file = null, str = "") {
     //randomly get a new monster to fight.  Change later to implement hash
@@ -125,6 +126,7 @@ function startBattle(file = null, str = "") {
     {
       animate()
     }
+  }
 
   virusmon.health = virusmon.maxHealth
 
