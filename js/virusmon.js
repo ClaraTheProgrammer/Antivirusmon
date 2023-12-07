@@ -168,11 +168,11 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
 })
 */
 
-document.getElementById("UpButton").addEventListener("onmousedown", function(event) {
+document.getElementById("UpButton").addEventListener("mousedown", function() {
     console.log("Up Button Pressed")
     keys.w.pressed = true
 });
-document.getElementById("UpButton").addEventListener("onmouseup", function(event) {
+document.getElementById("UpButton").addEventListener("mouseup", function() {
     console.log("Up Button Released")
     keys.w.pressed = false
 });
