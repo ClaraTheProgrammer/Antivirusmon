@@ -205,7 +205,7 @@ downButton.addEventListener("mousedown", function() {
     console.log("Down Button Pressed")
     
     KeysPressed.push('s');
-    keysUI.w.pressed = true
+    keysUI.s.pressed = true
 });
 downButton.addEventListener("mouseup", function() {
     console.log("Down Button Released")
@@ -214,7 +214,7 @@ downButton.addEventListener("mouseup", function() {
     {
         KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
     }
-    keys.w.pressed = false
+    keys.s.pressed = false
 });
 
 //Left Button
@@ -222,7 +222,7 @@ leftButton.addEventListener("mousedown", function() {
     console.log("Left Button Pressed")
     
     KeysPressed.push('a');
-    keysUI.w.pressed = true
+    keysUI.a.pressed = true
 });
 leftButton.addEventListener("mouseup", function() {
     console.log("Left Button Released")
@@ -231,7 +231,7 @@ leftButton.addEventListener("mouseup", function() {
     {
         KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
     }
-    keys.w.pressed = false
+    keys.a.pressed = false
 });
 
 // Right Button
@@ -239,7 +239,7 @@ rightButton.addEventListener("mousedown", function() {
     console.log("Right Button Pressed")
     
     KeysPressed.push('d');
-    keysUI.w.pressed = true
+    keysUI.d.pressed = true
 });
 rightButton.addEventListener("mouseup", function() {
     console.log("Right Button Released")
@@ -248,7 +248,7 @@ rightButton.addEventListener("mouseup", function() {
     {
         KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
     }
-    keys.w.pressed = false
+    keys.d.pressed = false
 });
 
 // END OF BUTTON INPUTS
