@@ -183,7 +183,6 @@ async function game_analyzeHashNoPrompt()
     obj = fakeDataBase[keys[Math.floor(Math.random() * keys.length)]]
 
     battle.initiated = true
-    gsap.to('#prompt_overlay', {opacity: 0})
     startBattleNoPrompt(obj)     
 }
 
@@ -248,10 +247,7 @@ async function promptUser()
 
 async function WorldToBattleTransition()
 {
-    gsap.to('#battle_transition', {opacity: 1, repeat:2, 
-        onComplete(){ gsap.to('#battle_transition', {opacity: 0, onComplete(){
-            game_analyzeHashNoPrompt()
-        }})}})        
+    game_analyzeHashNoPrompt()    
 }
 
 function animate(){
