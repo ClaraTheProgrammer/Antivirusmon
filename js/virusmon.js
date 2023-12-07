@@ -168,6 +168,13 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
 })
 */
 
+document.getElementById("UpButton").addEventListener("mousedown", function(event) {
+    keys.w.pressed = true
+}, false);
+document.getElementById("UpButton").addEventListener("mouseup", function(event) {
+    keys.w.pressed = false
+}, false);
+
 async function getRandomHash()
 {
     await fetch(`https://claratheprogrammer.github.io/Antivirusmon/random`)

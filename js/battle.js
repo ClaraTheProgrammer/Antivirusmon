@@ -115,8 +115,6 @@ function startBattleNoPrompt(file = null, str = "") {
   animateBattle()
   gsap.to('#battle_transition', {opacity: 0,
     onComplete(){ 
-      
-
       init_pokedex(file),
       document.querySelector('#BattleOverlay').style.display = 'block'
       document.querySelector('#DialogueBox').style.display = 'none'
