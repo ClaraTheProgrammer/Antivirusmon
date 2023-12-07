@@ -143,6 +143,14 @@ const keys={
     shift:{pressed:false}
 }
 
+const keysUI={
+    w:{pressed:false},
+    a:{pressed:false},
+    s:{pressed:false},
+    d:{pressed:false},
+    shift:{pressed:false}
+}
+
 const movables = [background, ...boundaries, foreground, ...battleZones]
 
 function rectangularCollision({rectangle1, rectangle2}){
@@ -168,12 +176,21 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
 })
 */
 
+UI_buttonsUsed = false;
+
 document.getElementById("UpButton").addEventListener("mousedown", function() {
     console.log("Up Button Pressed")
-    keys.w.pressed = true
+    
+    KeysPressed.push('a');
+    keysUI.w.pressed = true
 });
 document.getElementById("UpButton").addEventListener("mouseup", function() {
     console.log("Up Button Released")
+    index = KeysPressed.indexOf('w');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
     keys.w.pressed = false
 });
 
