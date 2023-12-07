@@ -143,13 +143,7 @@ const keys={
     shift:{pressed:false}
 }
 
-const keysUI={
-    w:{pressed:false},
-    a:{pressed:false},
-    s:{pressed:false},
-    d:{pressed:false},
-    shift:{pressed:false}
-}
+
 
 const movables = [background, ...boundaries, foreground, ...battleZones]
 
@@ -188,7 +182,7 @@ upButton.addEventListener("mousedown", function() {
     console.log("Up Button Pressed")
     
     KeysPressed.push('w');
-    keysUI.w.pressed = true
+    keys.w.pressed = true
 });
 upButton.addEventListener("mouseup", function() {
     console.log("Up Button Released")
@@ -214,7 +208,7 @@ downButton.addEventListener("mousedown", function() {
     console.log("Down Button Pressed")
     
     KeysPressed.push('s');
-    keysUI.s.pressed = true
+    keys.s.pressed = true
 });
 downButton.addEventListener("mouseup", function() {
     console.log("Down Button Released")
@@ -240,7 +234,7 @@ leftButton.addEventListener("mousedown", function() {
     console.log("Left Button Pressed")
     
     KeysPressed.push('a');
-    keysUI.a.pressed = true
+    keys.a.pressed = true
 });
 leftButton.addEventListener("mouseup", function() {
     console.log("Left Button Released")
@@ -266,7 +260,7 @@ rightButton.addEventListener("mousedown", function() {
     console.log("Right Button Pressed")
     
     KeysPressed.push('d');
-    keysUI.d.pressed = true
+    keys.d.pressed = true
 });
 rightButton.addEventListener("mouseup", function() {
     console.log("Right Button Released")
