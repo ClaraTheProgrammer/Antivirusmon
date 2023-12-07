@@ -231,6 +231,7 @@ async function game_analyzeHash(hash_input)
     }) */
 }
 
+// changing a bit so not really prompting user :( )
 async function promptUser()
 {
     gsap.to('#battle_transition', {opacity: 1, repeat:2, 
@@ -240,6 +241,14 @@ async function promptUser()
     document.getElementById('hash_value').value = 'd3c1b641665589473f07587befb949c4'
     
     
+}
+
+async function WorldToBattleTransition()
+{
+    gsap.to('#battle_transition', {opacity: 1, repeat:2, 
+        onComplete(){ gsap.to('#battle_transition', {opacity: 1, repeat:1})}})    
+    
+    game_analyzeHash(hash_input)
 }
 
 function animate(){
@@ -285,7 +294,8 @@ function animate(){
                 window.cancelAnimationFrame(animationID)
                 KeysPressed = []
                 
-                promptUser();
+                //promptUser();
+                WorldToBattleTransition()
     
                 break
             }
