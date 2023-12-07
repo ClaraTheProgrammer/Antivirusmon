@@ -157,6 +157,7 @@ const battle = {
     initiated: false
 }
 
+/*
 document.getElementById('hash_value').addEventListener("keyup", (e) => {    
 
     if(e.key == 'Enter')
@@ -165,6 +166,7 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
         game_analyzeHash(hash_input)
     }
 })
+*/
 
 async function getRandomHash()
 {

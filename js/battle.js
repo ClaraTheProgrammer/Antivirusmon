@@ -112,9 +112,10 @@ function startBattleNoPrompt(file = null, str = "") {
   gsap.to(document.querySelector('#enemyHealthBar'), {width: (virusmon.health)/virusmon.maxHealth*100 + '%'})
   gsap.to(document.querySelector('#playerHealthBar'), {width: (anti_mon.health)/anti_mon.maxHealth*100 + '%'})
 
+  animateBattle()
   gsap.to('#battle_transition', {opacity: 0,
     onComplete(){ 
-      animateBattle(),
+      
 
       init_pokedex(file),
       document.querySelector('#BattleOverlay').style.display = 'block'
