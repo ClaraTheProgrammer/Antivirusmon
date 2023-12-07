@@ -178,13 +178,13 @@ leftButton = document.getElementById("LeftButton")
 rightButton = document.getElementById("RightButton")
 
 //Up Button
-upButton.addEventListener("mousedown", function() {
+upButton.addEventListener("pointerdown", function() {
     console.log("Up Button Pressed")
     
     KeysPressed.push('w');
     keys.w.pressed = true
 });
-upButton.addEventListener("mouseup", function() {
+upButton.addEventListener("pointerup", function() {
     console.log("Up Button Released")
     index = KeysPressed.indexOf('w');
     if (index > -1) 
@@ -193,7 +193,7 @@ upButton.addEventListener("mouseup", function() {
     }
     keys.w.pressed = false
 });
-upButton.addEventListener("mouseleave", function() {
+upButton.addEventListener("pointerleave", function() {
     console.log("Up Button Released")
     index = KeysPressed.indexOf('w');
     if (index > -1) 
