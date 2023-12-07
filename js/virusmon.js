@@ -302,6 +302,7 @@ async function game_analyzeHashNoPrompt()
     battle.initiated = true
 
     //do battle transition
+    gsap.to('#ArrowKeyHolders', {height: 0})
     gsap.to('#battle_transition', {opacity: 1, repeat:2, onComplete(){startBattleNoPrompt(obj)}})        
 }
 
