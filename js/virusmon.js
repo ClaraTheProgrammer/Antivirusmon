@@ -183,7 +183,9 @@ async function game_analyzeHashNoPrompt()
     obj = fakeDataBase[keys[Math.floor(Math.random() * keys.length)]]
 
     battle.initiated = true
-    startBattleNoPrompt(obj)     
+
+    //do battle transition
+    gsap.to('#battle_transition', {opacity: 1, repeat:2, onComplete(){startBattleNoPrompt(obj)}})        
 }
 
 async function game_analyzeHash(hash_input)
