@@ -184,7 +184,7 @@ async function game_analyzeHashNoPrompt()
 
     battle.initiated = true
     gsap.to('#prompt_overlay', {opacity: 0})
-    startBattle(obj)     
+    startBattleNoPrompt(obj)     
 }
 
 async function game_analyzeHash(hash_input)

@@ -108,6 +108,24 @@ function startBattle(file = null, str = "") {
       }})
   }
 
+  function startBattleNoPrompt(file = null, str = "") {
+    //randomly get a new monster to fight.  Change later to implement hash
+    //random monster = Math.floor(Math.random()*(monsters.enemies.length))
+  
+    if(str == 'Cardboardian')
+      virusmon = new Monster(monsters.enemies[3])
+    else if(str == 'random')
+      virusmon = new Monster(monsters.enemies[Math.floor(Math.random()*(monsters.enemies.length-1))])
+    else if(file != null)
+    {
+      virusmon = new Monster(getMonsterBasedOnFile(file))
+      init_pokedex(file)
+    }
+    else
+    {
+      animate()
+    }
+
   virusmon.health = virusmon.maxHealth
 
   renderedSprites = [anti_mon, virusmon]
