@@ -176,15 +176,21 @@ document.getElementById('hash_value').addEventListener("keyup", (e) => {
 })
 */
 
-UI_buttonsUsed = false;
+// BUTTON INPUTS
 
-document.getElementById("UpButton").addEventListener("mousedown", function() {
+upButton = document.getElementById("UpButton")
+downButton = document.getElementById("DownButton")
+leftButton = document.getElementById("LeftButton")
+rightButton = document.getElementById("RightButton")
+
+//Up Button
+upButton.addEventListener("mousedown", function() {
     console.log("Up Button Pressed")
     
-    KeysPressed.push('a');
+    KeysPressed.push('w');
     keysUI.w.pressed = true
 });
-document.getElementById("UpButton").addEventListener("mouseup", function() {
+upButton.addEventListener("mouseup", function() {
     console.log("Up Button Released")
     index = KeysPressed.indexOf('w');
     if (index > -1) 
@@ -193,6 +199,59 @@ document.getElementById("UpButton").addEventListener("mouseup", function() {
     }
     keys.w.pressed = false
 });
+
+//Down Button
+downButton.addEventListener("mousedown", function() {
+    console.log("Down Button Pressed")
+    
+    KeysPressed.push('s');
+    keysUI.w.pressed = true
+});
+downButton.addEventListener("mouseup", function() {
+    console.log("Down Button Released")
+    index = KeysPressed.indexOf('s');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.w.pressed = false
+});
+
+//Left Button
+leftButton.addEventListener("mousedown", function() {
+    console.log("Left Button Pressed")
+    
+    KeysPressed.push('a');
+    keysUI.w.pressed = true
+});
+leftButton.addEventListener("mouseup", function() {
+    console.log("Left Button Released")
+    index = KeysPressed.indexOf('a');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.w.pressed = false
+});
+
+// Right Button
+rightButton.addEventListener("mousedown", function() {
+    console.log("Right Button Pressed")
+    
+    KeysPressed.push('d');
+    keysUI.w.pressed = true
+});
+rightButton.addEventListener("mouseup", function() {
+    console.log("Right Button Released")
+    index = KeysPressed.indexOf('d');
+    if (index > -1) 
+    {
+        KeysPressed.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    keys.w.pressed = false
+});
+
+// END OF BUTTON INPUTS
 
 async function getRandomHash()
 {
