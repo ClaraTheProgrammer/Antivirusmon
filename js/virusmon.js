@@ -212,15 +212,26 @@ upButton.addEventListener("touchcancel", function() {
 downButton.addEventListener("mousedown", function() {
     ButtonPressed('s')
 });
+downButton.addEventListener("touchstart", function() {
+    ButtonPressed('s')
+});
 downButton.addEventListener("mouseup", function() {
     ButtonPReleased('s')
 });
 downButton.addEventListener("mouseleave", function() {
     ButtonPReleased('s')
 });
+downButton.addEventListener("touchend", function() {
+    ButtonPReleased('s')
+});
+downButton.addEventListener("touchcancel", function() {
+    ButtonPReleased('s')
 
 //Left Button
 leftButton.addEventListener("mousedown", function() {
+    ButtonPressed('a')
+});
+leftButton.addEventListener("touchstart", function() {
     ButtonPressed('a')
 });
 leftButton.addEventListener("mouseup", function() {
@@ -229,16 +240,31 @@ leftButton.addEventListener("mouseup", function() {
 leftButton.addEventListener("mouseleave", function() {
     ButtonPReleased('a')
 });
+leftButton.addEventListener("touchend", function() {
+    ButtonPReleased('a')
+});
+leftButton.addEventListener("touchcancel", function() {
+    ButtonPReleased('a')
+});
 
 //Right Button
 rightButton.addEventListener("mousedown", function() {
-    ButtonPressed('a')
+    ButtonPressed('d')
+});
+rightButton.addEventListener("touchstart", function() {
+    ButtonPressed('d')
 });
 rightButton.addEventListener("mouseup", function() {
-    ButtonPReleased('a')
+    ButtonPReleased('d')
 });
 rightButton.addEventListener("mouseleave", function() {
-    ButtonPReleased('a')
+    ButtonPReleased('d')
+});
+rightButton.addEventListener("touchend", function() {
+    ButtonPReleased('d')
+});
+rightButton.addEventListener("touchcancel", function() {
+    ButtonPReleased('d')
 });
 
 // END OF BUTTON INPUTS
